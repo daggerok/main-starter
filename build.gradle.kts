@@ -35,7 +35,7 @@ lombok {
 dependencies {
   implementation("org.jboss.weld.se:weld-se-core:3.1.0.Final")
   implementation("javax.enterprise:cdi-api:2.0")
-  implementation("org.jboss:jandex:2.0.5.Final")
+  implementation("org.jboss:jandex:2.1.1.Final")
   implementation("org.slf4j:slf4j-api:1.7.26")
   implementation("ch.qos.logback:logback-classic:1.2.3")
   annotationProcessor("org.projectlombok:lombok:$lombokVersion")
@@ -49,7 +49,8 @@ application {
 
 tasks {
   register("fatJar", Jar::class.java) {
-    archiveAppendix.set("all")
+    //archiveAppendix.set("all")
+    archiveClassifier.set("all")
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
       attributes("Main-Class" to mainClass)
