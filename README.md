@@ -34,3 +34,22 @@ to create archive with all project sources use gradle _sources_ task, like so:
 ./gradlew sources
 unzip -d build/sources build/*.zip
 ```
+
+## maven
+
+_fat jar_
+
+```bash
+./mvnw package
+java -jar target/*-all.jar
+```
+
+_project sources archive_
+
+find archive with all project sources in target folder too: 
+
+```bash
+./mvnw assembly:single -Dassembly.ignoreMissingDescriptor
+unzip -d target/sources target/*-sources.zip
+unzip -d target/default target/*-src.zip
+```
