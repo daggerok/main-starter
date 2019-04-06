@@ -54,14 +54,20 @@ lombok {
   version = lombokVersion
 }
 
+val weldVersion: String by project
+val cdiApiVersion: String by project
+val jandexVersion: String by project
+val slf4jVersion: String by project
+val logbackVersion: String by project
+
 dependencies {
   implementation(kotlin("stdlib"))
   implementation(kotlin("reflect"))
-  implementation("org.jboss.weld.se:weld-se-core:3.1.0.Final")
-  implementation("javax.enterprise:cdi-api:2.0")
-  implementation("org.jboss:jandex:2.1.1.Final")
-  implementation("org.slf4j:slf4j-api:1.7.26")
-  implementation("ch.qos.logback:logback-classic:1.2.3")
+  implementation("org.jboss.weld.se:weld-se-core:$weldVersion")
+  implementation("javax.enterprise:cdi-api:$cdiApiVersion")
+  implementation("org.jboss:jandex:$jandexVersion")
+  implementation("org.slf4j:slf4j-api:$slf4jVersion")
+  implementation("ch.qos.logback:logback-classic:$logbackVersion")
   annotationProcessor("org.projectlombok:lombok:$lombokVersion")
 }
 
