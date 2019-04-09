@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 
 plugins {
   java
@@ -52,6 +53,10 @@ val cdiApiVersion: String by project
 val jandexVersion: String by project
 val slf4jVersion: String by project
 val logbackVersion: String by project
+val junit4Version: String by project
+val assertkVersion: String by project
+val assertjVersion: String by project
+val junitJupiterVersion: String by project
 
 dependencies {
   implementation(kotlin("stdlib"))
@@ -62,12 +67,29 @@ dependencies {
   implementation("org.slf4j:slf4j-api:$slf4jVersion")
   implementation("ch.qos.logback:logback-classic:$logbackVersion")
   annotationProcessor("org.projectlombok:lombok:$lombokVersion")
+
+  testImplementation("junit:junit:$junit4Version")
+  testImplementation("org.assertj:assertj-core:$assertjVersion")
+  testImplementation(platform("org.junit:junit-bom:$junitJupiterVersion"))
+  testImplementation("org.junit.jupiter:junit-jupiter-api")
+  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+  testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
+  testRuntime("org.junit.platform:junit-platform-launcher")
 }
 
 val mainClass: String by project
 
 application {
   mainClassName = mainClass
+}
+
+tasks.withType<Test> {
+  useJUnitPlatform()
+  testLogging {
+    showExceptions = true
+    showStandardStreams = true
+    events(PASSED, SKIPPED, FAILED)
+  }
 }
 
 tasks {
