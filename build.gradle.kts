@@ -8,13 +8,6 @@ plugins {
   id("io.franzbecker.gradle-lombok") version "2.1"
 }
 
-allprojects {
-  val applicationGroup: String by project
-  val applicationVersion: String by project
-  group = applicationGroup
-  version = applicationVersion
-}
-
 tasks.withType(Wrapper::class.java) {
   val gradleWrapperVersion: String by project
   gradleVersion = gradleWrapperVersion
