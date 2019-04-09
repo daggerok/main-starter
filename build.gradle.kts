@@ -61,6 +61,8 @@ val junitJupiterVersion: String by project
 dependencies {
   implementation(kotlin("stdlib"))
   implementation(kotlin("reflect"))
+  //implementation("io.vavr:vavr:0.10.0")
+  implementation("org.jboss.weld.se:weld-se-core:$weldVersion")
   implementation("org.jboss.weld.se:weld-se-core:$weldVersion")
   implementation("javax.enterprise:cdi-api:$cdiApiVersion")
   implementation("org.jboss:jandex:$jandexVersion")
@@ -69,6 +71,7 @@ dependencies {
   annotationProcessor("org.projectlombok:lombok:$lombokVersion")
 
   testImplementation("junit:junit:$junit4Version")
+  testImplementation("com.willowtreeapps.assertk:assertk-jvm:$assertkVersion")
   testImplementation("org.assertj:assertj-core:$assertjVersion")
   testImplementation(platform("org.junit:junit-bom:$junitJupiterVersion"))
   testImplementation("org.junit.jupiter:junit-jupiter-api")
