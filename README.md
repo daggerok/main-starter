@@ -17,4 +17,4 @@ rm -rf .git
 # ...
 ```
 
-NOTE: _This project has been built based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter)_
+NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter)_
