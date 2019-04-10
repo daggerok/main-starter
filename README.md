@@ -19,3 +19,5 @@ find archive with all project sources in target folder too:
 unzip -d target/sources target/*-sources.zip
 unzip -d target/default target/*-src.zip
 ```
+
+NOTE: _This project has been built based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter)_
