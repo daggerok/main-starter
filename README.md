@@ -45,3 +45,5 @@ to create archive with all project sources use gradle _sources_ task, like so:
 ./gradlew sources
 unzip -d build/sources build/*.zip
 ```
+
+NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter)_
