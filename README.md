@@ -5,6 +5,11 @@ JVM (java / kotlin) starter using Gradle / Maven build tools.
 
 ```bash
 git clone -b all --depth=1 https://github.com/daggerok/main-starter.git
+cd main-starter
+rm -rf .git
+
+gradle :wrapper
+mvn -N io.takari:maven:wrapper -Dmaven=3.6.0
 ```
 
 ## maven
@@ -18,7 +23,7 @@ java -jar target/*-all.jar
 
 _project sources archive_
 
-find archive with all project sources in target folder too: 
+find archive with all project sources in target folder too:
 
 ```bash
 ./mvnw assembly:single -Dassembly.ignoreMissingDescriptor
@@ -45,7 +50,7 @@ bash ./build/install/*/bin/*
 
 _project sources archive_
 
-to create archive with all project sources use gradle _sources_ task, like so: 
+to create archive with all project sources use gradle _sources_ task, like so:
 
 ```bash
 ./gradlew sources
