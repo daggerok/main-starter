@@ -4,7 +4,7 @@ JVM (java / kotlin) starter using Gradle / Maven build tools.
 ## getting started
 
 ```bash
-git clone https://github.com/daggerok/main-starter
+git clone --no-single-branch --depth=1 git@github.com:daggerok/main-starter.git
 cd main-starter
 
 git co gradle-kotlin
