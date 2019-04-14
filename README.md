@@ -7,9 +7,6 @@ JVM (java / kotlin) starter using Gradle / Maven build tools.
 git clone -b all --depth=1 https://github.com/daggerok/main-starter.git
 cd main-starter
 rm -rf .git
-
-gradle :wrapper
-mvn -N io.takari:maven:wrapper -Dmaven=3.6.0
 ```
 
 ## maven
