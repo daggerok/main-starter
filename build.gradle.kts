@@ -63,7 +63,6 @@ dependencies {
   implementation(kotlin("reflect"))
   //implementation("io.vavr:vavr:0.10.0")
   implementation("org.jboss.weld.se:weld-se-core:$weldVersion")
-  implementation("org.jboss.weld.se:weld-se-core:$weldVersion")
   implementation("javax.enterprise:cdi-api:$cdiApiVersion")
   implementation("org.jboss:jandex:$jandexVersion")
   implementation("org.slf4j:slf4j-api:$slf4jVersion")
