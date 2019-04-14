@@ -1,6 +1,12 @@
 # main-starter
 JVM (java / kotlin) starter using Gradle / Maven build tools.
 
+## getting started
+
+```bash
+git clone -b all --depth=1 git@github.com:daggerok/main-starter.git
+```
+
 ## maven
 
 _fat jar_
