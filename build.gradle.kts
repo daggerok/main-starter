@@ -3,10 +3,11 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 
 plugins {
   java
-  application
   kotlin("jvm") version "1.3.21"
   kotlin("plugin.spring") version "1.3.21"
   id("io.franzbecker.gradle-lombok") version "2.1"
+  id("org.springframework.boot") version "2.2.0.BUILD-SNAPSHOT"
+  id("io.spring.dependency-management") version "1.0.7.RELEASE"
 }
 
 tasks.withType(Wrapper::class.java) {
@@ -40,48 +41,36 @@ java {
 
 repositories {
   mavenCentral()
+  maven { url = uri("https://repo.spring.io/milestone/") }
+  maven { url = uri("https://repo.spring.io/snapshot/") }
 }
 
-val lombokVersion: String by project
-
 lombok {
+  val lombokVersion: String by project
   version = lombokVersion
 }
 
-val springFrameworkBomVersion: String by project
 val vavrVersion: String by project
-val slf4jVersion: String by project
-val logbackVersion: String by project
-val junit4Version: String by project
 val assertkVersion: String by project
-val assertjVersion: String by project
 val junitJupiterVersion: String by project
 
 dependencies {
   implementation(kotlin("stdlib"))
   implementation(kotlin("reflect"))
 
-  implementation(platform("org.springframework:spring-framework-bom:$springFrameworkBomVersion"))
-  implementation("org.springframework:spring-context-support")
-  implementation("io.vavr:vavr:$vavrVersion")
-  implementation("org.slf4j:slf4j-api:$slf4jVersion")
-  implementation("ch.qos.logback:logback-classic:$logbackVersion")
-  annotationProcessor("org.projectlombok:lombok:$lombokVersion")
+  implementation("org.springframework.boot:spring-boot-starter")
+  testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-  testImplementation("junit:junit:$junit4Version")
+  implementation("io.vavr:vavr:$vavrVersion")
+  annotationProcessor("org.projectlombok:lombok")
+
   testImplementation("com.willowtreeapps.assertk:assertk-jvm:$assertkVersion")
-  testImplementation("org.assertj:assertj-core:$assertjVersion")
   testImplementation(platform("org.junit:junit-bom:$junitJupiterVersion"))
+  testRuntime("org.junit.platform:junit-platform-launcher")
   testImplementation("org.junit.jupiter:junit-jupiter-api")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
   testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
-  testRuntime("org.junit.platform:junit-platform-launcher")
-}
-
-val mainClass: String by project
-
-application {
-  mainClassName = mainClass
+  testImplementation("junit:junit")
 }
 
 tasks.withType<Test> {
@@ -90,23 +79,6 @@ tasks.withType<Test> {
     showExceptions = true
     showStandardStreams = true
     events(PASSED, SKIPPED, FAILED)
-  }
-}
-
-tasks {
-  register("fatJar", Jar::class.java) {
-    //archiveAppendix.set("all")
-    archiveClassifier.set("all")
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest {
-      attributes("Main-Class" to mainClass)
-    }
-    from(configurations.runtimeClasspath.get()
-        .onEach { println("add from dependencies: ${it.name}") }
-        .map { if (it.isDirectory) it else zipTree(it) })
-    val sourcesMain = sourceSets.main.get()
-    sourcesMain.allSource.forEach { println("add from sources: ${it.name}") }
-    from(sourcesMain.output)
   }
 }
 
@@ -139,4 +111,4 @@ tasks {
   }
 }
 
-defaultTasks("clean", "sources", "fatJar", "installDist", "test")
+defaultTasks("clean", "sources", "build")
