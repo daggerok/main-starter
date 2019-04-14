@@ -1,10 +1,10 @@
 # main-starter
-JVM (java / kotlin) starter using Gradle / Maven build tools.
+Java starter using Gradle / Maven build tools.
 
 ## getting started
 
 ```bash
-git clone -b spring-boot-all --depth=1 https://github.com/daggerok/main-starter.git
+git clone -b spring-boot --depth=1 https://github.com/daggerok/main-starter.git
 cd main-starter
 rm -rf .git
 ```
