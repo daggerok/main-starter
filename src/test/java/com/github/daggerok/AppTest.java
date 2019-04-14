@@ -2,6 +2,7 @@ package com.github.daggerok;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/*
 // Junit 4:
 import org.junit.Test;
 
@@ -14,8 +15,8 @@ public class AppTest {
     App.main(null);
   }
 }
+*/
 
-/*
 // Junit 5 (Jupiter):
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,4 +31,3 @@ class AppTest {
     App.main(null);
   }
 }
-*/

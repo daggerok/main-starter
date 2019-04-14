@@ -48,9 +48,8 @@ lombok {
   version = lombokVersion
 }
 
-val weldVersion: String by project
-val cdiApiVersion: String by project
-val jandexVersion: String by project
+val springFrameworkBomVersion: String by project
+val vavrVersion: String by project
 val slf4jVersion: String by project
 val logbackVersion: String by project
 val junit4Version: String by project
@@ -61,10 +60,10 @@ val junitJupiterVersion: String by project
 dependencies {
   implementation(kotlin("stdlib"))
   implementation(kotlin("reflect"))
-  //implementation("io.vavr:vavr:0.10.0")
-  implementation("org.jboss.weld.se:weld-se-core:$weldVersion")
-  implementation("javax.enterprise:cdi-api:$cdiApiVersion")
-  implementation("org.jboss:jandex:$jandexVersion")
+
+  implementation(platform("org.springframework:spring-framework-bom:$springFrameworkBomVersion"))
+  implementation("org.springframework:spring-context-support")
+  implementation("io.vavr:vavr:$vavrVersion")
   implementation("org.slf4j:slf4j-api:$slf4jVersion")
   implementation("ch.qos.logback:logback-classic:$logbackVersion")
   annotationProcessor("org.projectlombok:lombok:$lombokVersion")
@@ -140,4 +139,4 @@ tasks {
   }
 }
 
-defaultTasks("clean", "sources", "fatJar", "installDist")
+defaultTasks("clean", "sources", "fatJar", "installDist", "test")
