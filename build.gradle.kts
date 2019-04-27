@@ -3,7 +3,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 plugins {
   java
   application
-  id("io.franzbecker.gradle-lombok") version "2.1"
+  id("io.franzbecker.gradle-lombok") version "3.0.0"
 }
 
 tasks.withType(Wrapper::class.java) {
