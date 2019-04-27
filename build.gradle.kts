@@ -3,9 +3,9 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 
 plugins {
   java
-  kotlin("jvm") version "1.3.21"
-  kotlin("plugin.spring") version "1.3.21"
-  id("io.franzbecker.gradle-lombok") version "2.1"
+  kotlin("jvm") version "1.3.31"
+  kotlin("plugin.spring") version "1.3.31"
+  id("io.franzbecker.gradle-lombok") version "3.0.0"
   id("org.springframework.boot") version "2.2.0.BUILD-SNAPSHOT"
   id("io.spring.dependency-management") version "1.0.7.RELEASE"
 }
