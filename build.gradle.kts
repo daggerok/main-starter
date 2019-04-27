@@ -2,7 +2,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 
 plugins {
   java
-  id("io.franzbecker.gradle-lombok") version "2.1"
+  id("io.franzbecker.gradle-lombok") version "3.0.0"
   id("org.springframework.boot") version "2.2.0.BUILD-SNAPSHOT"
   id("io.spring.dependency-management") version "1.0.7.RELEASE"
 }
