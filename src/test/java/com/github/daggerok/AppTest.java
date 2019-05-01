@@ -2,7 +2,8 @@ package com.github.daggerok;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-// Junit 4:
+// Junit 4 (vintage):
+import org.jboss.weld.environment.se.StartMain;
 import org.junit.Test;
 
 public class AppTest {
@@ -11,7 +12,8 @@ public class AppTest {
   public void main() {
     final App app = new App();
     assertThat(app).isNotNull();
-    App.main(null);
+
+    StartMain.main(new String[0]);
   }
 }
 
@@ -27,7 +29,8 @@ class AppTest {
   void main() {
     final App app = new App();
     assertThat(app).isNotNull();
-    App.main(null);
+
+    StartMain.main(new String[0]);
   }
 }
 */
