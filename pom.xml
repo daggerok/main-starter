@@ -184,6 +184,34 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.0.1</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.0.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
 
     <pluginManagement>
@@ -223,6 +251,8 @@
                       <mainClass>${mainClass}</mainClass>
                     </transformer>
                   </transformers>
+                  <createDependencyReducedPom>false</createDependencyReducedPom>
+                  <finalName>${project.artifactId}-${project.version}-all</finalName>
                 </configuration>
               </execution>
             </executions>
@@ -263,6 +293,8 @@
                       </manifestEntries>
                     </transformer>
                   </transformers>
+                  <createDependencyReducedPom>false</createDependencyReducedPom>
+                  <finalName>${project.artifactId}-${project.version}-all</finalName>
                 </configuration>
               </execution>
             </executions>
