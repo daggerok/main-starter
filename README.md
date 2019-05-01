@@ -1,60 +1,39 @@
 # main-starter
-JVM (java / kotlin) starter using Gradle / Maven build tools.
+Example of java smallrye micro-profile example using Gradle.
 
-## getting started
+_getting started_
 
 ```bash
-git clone -b all --depth=1 https://github.com/daggerok/main-starter.git
+git clone -b mp-smallrye-gradle --depth=1 https://github.com/daggerok/main-starter.git
 cd main-starter
 rm -rf .git
-
 gradle :wrapper
-mvn -N io.takari:maven:wrapper -Dmaven=3.6.0
 ```
 
-## maven
-
-_fat jar_
+_build fat jar_
 
 ```bash
-./mvnw package
-java -jar target/*-all.jar
-```
-
-_project sources archive_
-
-find archive with all project sources in target folder too:
-
-```bash
-./mvnw assembly:single -Dassembly.ignoreMissingDescriptor
-unzip -d target/sources target/*-sources.zip
-unzip -d target/default target/*-src.zip
-```
-JVM (java / kotlin) starter using Gradle / Maven build tools.
-
-## gradle
-
-_fat jar_
-
-```bash
-./gradlew build
+gradle shadowJar
 java -jar build/libs/*-all.jar
+
+# or
+java -cp build/libs/*-all.jar org.jboss.weld.environment.se.StartMain
 ```
 
-_installDist_
+_debug fat jar_
 
 ```bash
-./gradlew installDist
-bash ./build/install/*/bin/*
+java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005 -jar build/libs/*-all.jar
 ```
 
-_project sources archive_
+_NOTE_
 
-to create archive with all project sources use gradle _sources_ task, like so:
+Use `App.java` class for debug from IDE.
 
-```bash
-./gradlew sources
-unzip -d build/sources build/*.zip
-```
+_links_
+
+[YouTube: Using Java EE 8 Dependency Injection in Java SE](https://www.youtube.com/watch?v=lyuU24ZFlY4)
+[YouTube: Making the most of Java SE with CDI 2.0 by John Ament](https://www.youtube.com/watch?v=mXoH4DEIcLo)
+[YouTube: Combining Serverless Functions with CDI](https://www.youtube.com/watch?v=KzdD5AmQGmk)
 
 NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter)_

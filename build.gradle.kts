@@ -2,11 +2,15 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 
 plugins {
+  idea
   java
   application
   kotlin("jvm") version "1.3.31"
   kotlin("plugin.spring") version "1.3.31"
   id("io.franzbecker.gradle-lombok") version "3.0.0"
+  id("com.github.ben-manes.versions") version "0.21.0"
+  id("com.github.johnrengelman.shadow") version "5.0.0"
+  // gradle dependencyUpdates -Drevision=release --parallel
 }
 
 tasks.withType(Wrapper::class.java) {
@@ -49,25 +53,34 @@ lombok {
 }
 
 val weldVersion: String by project
-val cdiApiVersion: String by project
-val jandexVersion: String by project
+val javaxJson: String by project
+val yassonVersion: String by project
 val slf4jVersion: String by project
 val logbackVersion: String by project
 val junit4Version: String by project
 val assertkVersion: String by project
 val assertjVersion: String by project
 val junitJupiterVersion: String by project
+val smallryeMessagingVersin: String by project
+val smallryeReactiveStreamsVersin: String by project
 
 dependencies {
   implementation(kotlin("stdlib"))
   implementation(kotlin("reflect"))
-  //implementation("io.vavr:vavr:0.10.0")
+
+  implementation("io.smallrye.reactive:smallrye-reactive-streams-operators:$smallryeReactiveStreamsVersin")
+  implementation("io.smallrye.reactive:smallrye-reactive-messaging-provider:$smallryeMessagingVersin")
+  implementation("io.smallrye.reactive:smallrye-reactive-messaging-kafka:$smallryeMessagingVersin")
+
   implementation("org.jboss.weld.se:weld-se-core:$weldVersion")
-  implementation("javax.enterprise:cdi-api:$cdiApiVersion")
-  implementation("org.jboss:jandex:$jandexVersion")
-  implementation("org.slf4j:slf4j-api:$slf4jVersion")
+  implementation("org.glassfish:javax.json:$javaxJson")
+  implementation("org.eclipse:yasson:$yassonVersion")
+
+  implementation("io.vavr:vavr:0.10.0")
+  //implementation("org.slf4j:slf4j-log4j12:4slf4jVersion")
   implementation("ch.qos.logback:logback-classic:$logbackVersion")
   annotationProcessor("org.projectlombok:lombok:$lombokVersion")
+  testCompileOnly("org.projectlombok:lombok:$lombokVersion")
 
   testImplementation("junit:junit:$junit4Version")
   testImplementation("com.willowtreeapps.assertk:assertk-jvm:$assertkVersion")
@@ -79,57 +92,21 @@ dependencies {
   testRuntime("org.junit.platform:junit-platform-launcher")
 }
 
-val mainClass: String by project
-
 application {
+  val mainClass: String by project
   mainClassName = mainClass
 }
 
-tasks.withType<Test> {
-  useJUnitPlatform()
-  testLogging {
-    showExceptions = true
-    showStandardStreams = true
-    events(PASSED, SKIPPED, FAILED)
-  }
-}
-
 tasks {
-  register("fatJar", Jar::class.java) {
-    //archiveAppendix.set("all")
-    archiveClassifier.set("all")
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest {
-      attributes("Main-Class" to mainClass)
+  withType<Test> {
+    useJUnitPlatform()
+    testLogging {
+      showExceptions = true
+      showStandardStreams = true
+      events(PASSED, SKIPPED, FAILED)
     }
-    from(configurations.runtimeClasspath.get()
-        .onEach { println("add from dependencies: ${it.name}") }
-        .map { if (it.isDirectory) it else zipTree(it) })
-    val sourcesMain = sourceSets.main.get()
-    sourcesMain.allSource.forEach { println("add from sources: ${it.name}") }
-    from(sourcesMain.output)
   }
-}
 
-tasks.create<Zip>("sources") {
-  dependsOn("clean")
-  shouldRunAfter("clean", "assemble")
-  description = "Archives sources in a zip file"
-  group = "Archive"
-  from("src") {
-    into("src")
-  }
-  from(".gitignore")
-  from(".java-version")
-  from(".travis.yml")
-  from("build.gradle.kts")
-  from("pom.xml")
-  from("README.md")
-  from("settings.gradle.kts")
-  archiveFileName.set("${project.buildDir}/sources-${project.version}.zip")
-}
-
-tasks {
   named("clean") {
     doLast {
       delete(
@@ -138,6 +115,29 @@ tasks {
       )
     }
   }
+
+  /*register("javaDoc", Javadoc::class.java) {
+    source = sourceSets["main"].allJava
+  }*/
+
+  create<Zip>("sources") {
+    dependsOn("clean")
+    shouldRunAfter("clean", "assemble")
+    description = "Archives sources in a zip file"
+    group = "Archive"
+    from("src") {
+      into("src")
+    }
+    from(".gitignore")
+    from(".java-version")
+    from(".travis.yml")
+    from("build.gradle.kts")
+    from("pom.xml")
+    from("README.md")
+    from("settings.gradle.kts")
+    val version = if (project.version == "unspecified") "SNAPSHOT" else project.version
+    archiveFileName.set("${project.buildDir}/sources-$version.zip")
+  }
 }
 
-defaultTasks("clean", "sources", "fatJar", "installDist")
+defaultTasks("clean", "sources", "javadoc", "shadowJar", "installDist", "distZip")

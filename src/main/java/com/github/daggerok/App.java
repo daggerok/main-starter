@@ -1,18 +1,28 @@
 package com.github.daggerok;
 
+import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.se.SeContainerInitializer;
-import javax.enterprise.inject.spi.BeanManager;
+import java.util.concurrent.TimeUnit;
 
+/**
+ * This class is using only for debug by running main method from IDE.
+ *
+ * Real main class should be: {@link org.jboss.weld.environment.se.StartMain}
+ * java -cp build/libs/*-all.jar org.jboss.weld.environment.se.StartMain arg1 arg2
+ */
 @Slf4j
+@ApplicationScoped
 public class App {
   public static void main(String[] args) {
-    log.info("Hello!");
     SeContainerInitializer.newInstance()
-                          .setClassLoader(App.class.getClassLoader())
-                          // require <exclude name="org.jboss.weld.**"/> into beans.xml
-                          .addPackages(true, App.class, BeanManager.class)
+                           .addPackages(true, App.class)
+                          //.enableInterceptors(com.github.daggerok.log.LogMeInterceptor.class) // not needed on annotated
+                          //.disableDiscovery()
                           .initialize();
+    Try.run(() -> TimeUnit.SECONDS.sleep(1))
+       .onFailure(e -> log.error("oops: {} ", e.getLocalizedMessage(), e));
   }
 }
