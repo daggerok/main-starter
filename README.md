@@ -38,4 +38,7 @@ rm -rf .git
 * [maven-kotlin](https://github.com/daggerok/main-starter/tree/maven-kotlin/)
 * [maven](https://github.com/daggerok/main-starter/tree/maven/)
 
+TODO / FIXME:
+* fix and merge together mp-smallrye [maven](https://github.com/daggerok/main-starter/tree/mp-smallrye-maven/) and [gradle](https://github.com/daggerok/main-starter/tree/mp-smallrye-gradle/) branches
+
 NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter)_
