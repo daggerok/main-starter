@@ -1,0 +1,18 @@
+version: '2.1'
+networks:
+  quarkus-net:
+    driver: bridge
+services:
+  maven-app:
+    build:
+      context: ../../..
+      dockerfile: ./src/main/docker/Dockerfile.jvm
+    networks: [quarkus-net]
+    ports: ['8080:8080']
+  healthcheck:
+    image: busybox
+    depends_on:
+      maven-app:
+        condition: service_healthy
+    networks: [quarkus-net]
+    command: echo ready

@@ -1,22 +1,75 @@
 # main-starter
-JVM (java / kotlin) starter using Gradle / Maven build tools.
+Quarkus micro-profile starter using Gradle / Maven build tools.
 
-## getting started
+_getting started_
 
 ```bash
-git clone -b all --depth=1 https://github.com/daggerok/main-starter.git
+git clone -b quarkus --depth=1 https://github.com/daggerok/main-starter.git
+cd main-starter
+rm -rf .git
 ```
 
-## maven
+_maven dev mode_
+
+```bash
+./mvnw compile quarkus:dev
+http :8080/api/v1/hello
+```
+
+_maven build_
+
+```bash
+./mvnw compile jar:jar quarkus:build
+java -cp target/lib -jar target/*-runner.jar
+http :8080/api/v1/hello/max
+```
 
 _fat jar_
 
 ```bash
-./mvnw package
-java -jar target/*-all.jar
+./mvnw package -PuberJar
+java -jar target/*-runner.jar
+http :8080/api/v1/hello/max
+```
+
+_maven docker-compose plugin_
+
+```bash
+./mvnw -P docker compile jar:jar quarkus:build docker-compose:up
+#
+./mvnw -P docker docker-compose:down
+```
+
+_docker-compose_
+
+```bash
+./mvnw
+docker-compose -f ./src/main/docker/docker-compose-maven.yaml up
+# ...
+docker-compose -f ./src/main/docker/docker-compose-maven.yaml down
+```
+
+_docker jvm_
+
+```bash
+./mvnw clean compile jar:jar quarkus:build
+docker build -f src/main/docker/Dockerfile.jvm -t quarkus/quarkus-example-jvm .
+docker run -i --rm -p 8080:8080 quarkus/quarkus-example-jvm
+```
+
+_docker native_
+
+```bash
+./mvnw package -Pnative -Dnative-image.docker-build=true
+docker build -f src/main/docker/Dockerfile.native -t quarkus/quarkus-example .
+docker run -i --rm -p 8080:8080 quarkus/quarkus-example
 ```
 
 _project sources archive_
+
+```bash
+./mvnw assemble:single
+```
 
 find archive with all project sources in target folder too: 
 
@@ -25,31 +78,15 @@ find archive with all project sources in target folder too:
 unzip -d target/sources target/*-sources.zip
 unzip -d target/default target/*-src.zip
 ```
-JVM (java / kotlin) starter using Gradle / Maven build tools.
 
-## gradle
-
-_fat jar_
+_maven archetype generator_
 
 ```bash
-./gradlew build
-java -jar build/libs/*-all.jar
-```
-
-_installDist_
-
-```bash
-./gradlew installDist
-bash ./build/install/*/bin/*
-```
-
-_project sources archive_
-
-to create archive with all project sources use gradle _sources_ task, like so: 
-
-```bash
-./gradlew sources
-unzip -d build/sources build/*.zip
+mvn io.quarkus:quarkus-maven-plugin:0.14.0:create \
+  -DprojectGroupId=com.github.daggerok \
+  -DprojectArtifactId=rest-api \
+  -DprojectVersion=1.0-SNAPSHOT \
+  -DclassName="com.github.daggerok.RestResource"
 ```
 
 NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter)_
