@@ -30,6 +30,7 @@ rm -rf .git
 * [spring-all](https://github.com/daggerok/main-starter/tree/spring-all/)
 * [spring-boot-all](https://github.com/daggerok/main-starter/tree/spring-boot-all/)
 * [spring-boot](https://github.com/daggerok/main-starter/tree/spring-boot/)
+* [spring-fu-jafu](https://github.com/daggerok/main-starter/tree/spring-fu-jafu/)
 * [cdi-all](https://github.com/daggerok/main-starter/tree/cdi-all/)
 * [cdi](https://github.com/daggerok/main-starter/tree/cdi/)
 * [all](https://github.com/daggerok/main-starter/tree/all/)
