@@ -30,7 +30,6 @@ find archive with all project sources in target folder too:
 unzip -d target/sources target/*-sources.zip
 unzip -d target/default target/*-src.zip
 ```
-JVM (java / kotlin) starter using Gradle / Maven build tools.
 
 ## gradle
 
