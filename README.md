@@ -1,15 +1,15 @@
 # main-starter
-Java Akka Http starter using Gradle / Maven build tools.
+Scala Akka starter using Gradle / Maven build tools.
 
 ## getting started
 
 ```bash
-git clone -b akka-http --depth=1 https://github.com/daggerok/main-starter.git
+git clone -b akka-scala --depth=1 https://github.com/daggerok/main-starter.git
 cd main-starter
 rm -rf .git
 
 gradle :wrapper
-mvn -N io.takari:maven:wrapper -Dmaven=3.6.0
+mvn -N io.takari:maven:wrapper -Dmaven=3.6.1
 ```
 
 ## maven
