@@ -27,6 +27,7 @@ rm -rf .git
 
 * [akka](https://github.com/daggerok/main-starter/tree/akka/)
 * [akka-http](https://github.com/daggerok/main-starter/tree/akka-http/)
+* [akka-scala](https://github.com/daggerok/main-starter/tree/akka-scala/)
 * [spring](https://github.com/daggerok/main-starter/tree/spring/)
 * [spring-all](https://github.com/daggerok/main-starter/tree/spring-all/)
 * [spring-boot-all](https://github.com/daggerok/main-starter/tree/spring-boot-all/)
