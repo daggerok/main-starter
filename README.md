@@ -1,10 +1,10 @@
 # main-starter
-Java Akka starter using Gradle / Maven build tools.
+Java Akka Http starter using Gradle / Maven build tools.
 
 ## getting started
 
 ```bash
-git clone -b akka --depth=1 https://github.com/daggerok/main-starter.git
+git clone -b akka-http --depth=1 https://github.com/daggerok/main-starter.git
 cd main-starter
 rm -rf .git
 
@@ -30,15 +30,15 @@ find archive with all project sources in target folder too:
 unzip -d target/sources target/*-sources.zip
 unzip -d target/default target/*-src.zip
 ```
-JVM (java / kotlin) starter using Gradle / Maven build tools.
 
 ## gradle
 
 _fat jar_
 
 ```bash
-./gradlew build
+./gradlew
 java -jar build/libs/*-all.jar
+# or: bash build/install/*/bin/*
 ```
 
 _project sources archive_
@@ -54,5 +54,7 @@ NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://gi
 
 _resources_
 
-* [Akka tutorial](https://doc.akka.io/docs/akka/current/guide/tutorial_1.html)
+* [Akka HTTP tutorial](https://doc.akka.io/docs/akka-http/current/introduction.html)
+* [Akka Gradle](http://www.sureshpw.com/2015/10/building-akka-bundle-with-all.html)
+* [Akka Maven shade plugin configuration](https://doc.akka.io/docs/akka/current/general/configuration.html)
 * [Akka colored logging: SLF4J + logback](https://doc.akka.io/docs/akka/current/logging.html)

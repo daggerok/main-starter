@@ -1,62 +1,54 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 
 plugins {
   java
   application
-  id("io.franzbecker.gradle-lombok") version "3.0.0"
+  id("io.franzbecker.gradle-lombok") version Globals.Gradle.Plugin.lombokVersion
+  id("com.github.ben-manes.versions") version Globals.Gradle.Plugin.versionsVersion
+  id("com.github.johnrengelman.shadow") version Globals.Gradle.Plugin.shadowVersion
 }
 
-tasks.withType(Wrapper::class.java) {
-  val gradleWrapperVersion: String by project
-  gradleVersion = gradleWrapperVersion
-  distributionType = Wrapper.DistributionType.BIN
-}
+group = Globals.Project.groupId
+version = Globals.Project.version
 
 java {
-  val javaVersion = JavaVersion.VERSION_1_8
-  sourceCompatibility = javaVersion
-  targetCompatibility = javaVersion
+  sourceCompatibility = Globals.javaVersion
+  targetCompatibility = Globals.javaVersion
 }
 
 repositories {
   mavenCentral()
 }
 
-val lombokVersion: String by project
-
 lombok {
-  version = lombokVersion
+  version = Globals.lombokVersion
 }
 
-val akkaVersion: String by project
-val springVersion: String by project
-val vavrVersion: String by project
-val slf4jVersion: String by project
-val logbackVersion: String by project
-val junit4Version: String by project
-val assertkVersion: String by project
-val assertjVersion: String by project
-val junitJupiterVersion: String by project
-
 dependencies {
-  implementation("com.typesafe.akka:akka-actor_2.12:$akkaVersion")
-  implementation("com.typesafe.akka:akka-slf4j_2.12:$akkaVersion")
-  implementation("ch.qos.logback:logback-classic:$logbackVersion")
+  implementation("com.typesafe.akka:akka-actor_2.12:${Globals.akkaVersion}")
+  implementation("com.typesafe.akka:akka-stream_2.12:${Globals.akkaVersion}")
+  implementation("com.typesafe.akka:akka-http_2.12:${Globals.akkaHttpVersion}")
+  implementation("com.typesafe.akka:akka-slf4j_2.12:${Globals.akkaVersion}")
+  implementation("ch.qos.logback:logback-classic:${Globals.logbackVersion}")
+  //testImplementation("com.typesafe.akka:akka-testkit_2.12:${Globals.akkaVersion}")
+  //testImplementation("com.typesafe.akka:akka-stream-testkit_2.12:${Globals.akkaVersion}")
+  //testImplementation("com.typesafe.akka:akka-http-testkit_2.12:${Globals.akkaHttpVersion}")
 
-  implementation(platform("org.springframework:spring-framework-bom:$springVersion"))
+  implementation(platform("org.springframework:spring-framework-bom:${Globals.springVersion}"))
   implementation("org.springframework:spring-context-support")
 
-  implementation("io.vavr:vavr:$vavrVersion")
-  implementation("org.slf4j:slf4j-api:$slf4jVersion")
-  annotationProcessor("org.projectlombok:lombok:$lombokVersion")
+  implementation("io.vavr:vavr:${Globals.vavrVersion}")
+  implementation("org.slf4j:slf4j-api:${Globals.slf4jVersion}")
+  annotationProcessor("org.projectlombok:lombok:${Globals.lombokVersion}")
 
-  testImplementation("org.assertj:assertj-core:$assertjVersion")
-  testImplementation(platform("org.junit:junit-bom:$junitJupiterVersion"))
+  testImplementation("org.assertj:assertj-core:${Globals.assertjVersion}")
+  testImplementation(platform("org.junit:junit-bom:${Globals.junitJupiterVersion}"))
   testRuntime("org.junit.platform:junit-platform-launcher")
   testImplementation("org.junit.jupiter:junit-jupiter-api")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
   testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
-  testImplementation("junit:junit:$junit4Version")
+  testImplementation("junit:junit:${Globals.junit4Version}")
 }
 
 tasks.withType<Test> {
@@ -68,25 +60,20 @@ tasks.withType<Test> {
   }
 }
 
-val mainClass: String by project
-
 application {
-  mainClassName = mainClass
+  mainClassName = Globals.Project.mainClass
 }
 
 tasks {
-  register<Jar>("fatJar") {
-    archiveClassifier.set("all")
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest {
-      attributes("Main-Class" to mainClass)
+  withType(Wrapper::class.java) {
+    gradleVersion = Globals.Gradle.wrapperVersion
+    distributionType = Wrapper.DistributionType.BIN
+  }
+
+  withType<ShadowJar> {
+    transform(com.github.jengelman.gradle.plugins.shadow.transformers.AppendingTransformer::class.java) {
+      resource = "reference.conf"
     }
-    from(configurations.runtimeClasspath.get()
-        .onEach { println("add from dependencies: ${it.name}") }
-        .map { if (it.isDirectory) it else zipTree(it) })
-    val sourcesMain = sourceSets.main.get()
-    sourcesMain.allSource.forEach { println("add from sources: ${it.name}") }
-    from(sourcesMain.output)
   }
 
   register<Zip>("sources") {
@@ -96,6 +83,12 @@ tasks {
     group = "Archive"
     from("src") {
       into("src")
+    }
+    from("buildSrc/build.gradle.kts") {
+      into("buildSrc")
+    }
+    from("buildSrc/src/main/java") {
+      into("buildSrc/main/java")
     }
     from(".gitignore")
     from(".java-version")
@@ -117,4 +110,4 @@ tasks {
   }
 }
 
-defaultTasks("clean", "sources", "fatJar", "installDist", "distZip")
+defaultTasks("clean", "sources", "shadowJar", "installDist", "distZip", "build")

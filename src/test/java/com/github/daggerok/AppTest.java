@@ -27,6 +27,7 @@ public class AppTest {
 // Junit 5 (Jupiter):
 import org.junit.jupiter.api.*;
 
+@Disabled
 @DisplayName("Akka tests")
 class AppTest {
 

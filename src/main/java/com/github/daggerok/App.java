@@ -1,55 +1,28 @@
 package com.github.daggerok;
 
-import akka.actor.AbstractActor;
-import akka.actor.ActorRef;
+import akka.NotUsed;
 import akka.actor.ActorSystem;
-import akka.actor.Props;
+import akka.http.javadsl.ConnectHttp;
+import akka.http.javadsl.Http;
+import akka.http.javadsl.ServerBinding;
+import akka.http.javadsl.model.HttpRequest;
+import akka.http.javadsl.model.HttpResponse;
+import akka.http.javadsl.server.AllDirectives;
+import akka.http.javadsl.server.Route;
+import akka.stream.ActorMaterializer;
+import akka.stream.javadsl.Flow;
 import io.vavr.control.Try;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 
-import java.util.concurrent.TimeUnit;
-
-class MyActor extends AbstractActor {
-
-  public static Props props() {
-    return Props.create(MyActor.class, MyActor::new);
-  }
-
-  public static String name() {
-    return MyActor.class.getName();
-  }
-
-  @Override
-  public Receive createReceive() {
-    return receiveBuilder()
-        .matchEquals("ping", s -> {
-          context().system().log().info("{}", s);
-          ////context().sender().tell("pong", self());
-        })
-        .matchEquals("fail", s -> {
-          context().system().log().info(s);
-          throw new RuntimeException("expected fail!");
-        })
-        .matchEquals("stop", s -> {
-          context().system().log().info("self {}", s);
-          context().stop(self());
-        })
-        .matchEquals("terminate", s -> {
-          context().system().log().info("{} system!", s);
-          context().system().terminate();
-        })
-        .matchAny(o -> {
-          context().system().log().info("{} system!", o);
-          throw new IllegalAccessException("unexpected: " + o);
-        })
-        .build();
-  }
-}
+import javax.annotation.PostConstruct;
+import java.util.concurrent.CompletionStage;
 
 @Configuration
 class Cfg {
@@ -57,6 +30,43 @@ class Cfg {
   @Bean
   public ActorSystem actorSystem() {
     return ActorSystem.create();
+  }
+
+  @Bean
+  public Http http() {
+    return Http.get(actorSystem());
+  }
+
+  @Bean
+  public ActorMaterializer actorMaterializer() {
+    return ActorMaterializer.create(actorSystem());
+  }
+}
+
+@Service
+@RequiredArgsConstructor
+class MinimalHttp extends AllDirectives {
+
+  private final Http http;
+  private final ActorSystem actorSystem;
+  private final ActorMaterializer materializer;
+
+  @PostConstruct
+  public void init() {
+    Flow<HttpRequest, HttpResponse, NotUsed> httpFlow = createRoute().flow(actorSystem, materializer);
+    ConnectHttp connect = ConnectHttp.toHost("localhost", 8080);
+    CompletionStage<ServerBinding> binging = http.bindAndHandle(httpFlow, connect, materializer);
+    Try.run(System.in::read)
+       .andFinally(() -> binging.thenCompose(ServerBinding::unbind)
+                                .thenAccept(done -> actorSystem.terminate()));
+  }
+
+  private Route createRoute() {
+    return concat(
+        path("", () ->
+            get(() -> complete("<h1>Say hello to akka-http</h1>"))
+        )
+    );
   }
 }
 
@@ -66,17 +76,8 @@ class Cfg {
 public class App {
 
   public static void main(String[] args) {
-    ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(App.class);
-    ActorSystem actorSystem = ctx.getBean(ActorSystem.class);
-    ActorRef actorRef = actorSystem.actorOf(MyActor.props(), MyActor.name());
-
-    actorRef.tell("ping", ActorRef.noSender());
-    actorRef.tell("fail", ActorRef.noSender());
-    actorRef.tell("ololo", ActorRef.noSender());
-    actorRef.tell("stop", ActorRef.noSender());
-    actorRef.tell("terminate", ActorRef.noSender());
-
-    Try.run(() -> TimeUnit.SECONDS.sleep(1))
-       .andFinally(actorSystem::terminate);
+    ApplicationContext ctx = new AnnotationConfigApplicationContext(App.class);
+    Try.run(() -> ctx.getBean(MinimalHttp.class))
+       .andFinally(ctx.getBean(ActorSystem.class)::terminate);
   }
 }
