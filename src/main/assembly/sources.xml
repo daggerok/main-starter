@@ -1,0 +1,96 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+
+  <id>sources</id>
+  <includeBaseDirectory>true</includeBaseDirectory>
+
+  <formats>
+    <!--
+      <format> — specifies the format of the assembly. We can have multiple formats and the assembly plugin will create
+                 archives for each format. The supported formats are as follows:
+        “zip” — Creates a ZIP file format
+        “tar” — Creates a TAR format
+        “tar.gz” or “tgz” — Creates a gzip’d TAR format
+        “tar.bz2” or “tbz2” — Creates a bzip’d TAR format
+        “tar.snappy” — Creates a snappy’d TAR format
+        “tar.xz” or “txz” — Creates a xz’d TAR format
+        “jar” — Creates a JAR format
+        “dir” — Creates an exploded directory format
+        “war” — Creates a WAR format
+        Since we are creating a zip archive, I have added the format as zip:
+    -->
+    <format>zip</format>
+  </formats>
+
+  <fileSets>
+    <fileSet>
+      <directory>${project.basedir}/.mvn</directory>
+    </fileSet>
+    <fileSet>
+      <directory>${project.basedir}/gradle</directory>
+    </fileSet>
+    <fileSet>
+      <directory>${project.basedir}/src</directory>
+    </fileSet>
+  </fileSets>
+
+  <files>
+    <file>
+      <source>${project.basedir}/buildSrc/build.gradle.kts</source>
+      <outputDirectory>/buildSrc/</outputDirectory>
+    </file>
+    <file>
+      <source>${project.basedir}/buildSrc/src/main/java/Globals.kt</source>
+      <outputDirectory>/buildSrc/src/main/java/</outputDirectory>
+    </file>
+    <file>
+      <source>${project.basedir}/.gitattributes</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+    <file>
+      <source>${project.basedir}/.gitignore</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+    <file>
+      <source>${project.basedir}/build.gradle.kts</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+    <file>
+      <source>${project.basedir}/gradlew</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+    <file>
+      <source>${project.basedir}/gradlew.bat</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+    <file>
+      <source>${project.basedir}/LICENSE</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+    <file>
+      <source>${project.basedir}/maven-version-rules.xml</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+    <file>
+      <source>${project.basedir}/mvnw</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+    <file>
+      <source>${project.basedir}/mvnw.cmd</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+    <file>
+      <source>${project.basedir}/pom.xml</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+    <file>
+      <source>${project.basedir}/README.md</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+    <file>
+      <source>${project.basedir}/settings.gradle.kts</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+  </files>
+</assembly>

@@ -1,0 +1,25 @@
+* text=auto
+.gitattributes  text
+.gitignore      text
+*.java          text
+*.kt            text
+*.kts           text
+*.properties    text
+*.yaml          text
+*.yml           text
+*.xml           text
+*.md            text
+
+*.jar   binary
+
+mvnw    eol=lf
+gradlew eol=lf
+*.bash  eol=lf
+*.fish  eol=lf
+*.zsh   eol=lf
+*.sh    eol=lf
+
+mvnw.cmd    eol=crlf
+gradlew.bat eol=crlf
+*.bat       eol=crlf
+*.cmd       eol=crlf
