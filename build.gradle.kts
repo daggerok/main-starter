@@ -48,35 +48,37 @@ lombok {
   version = lombokVersion
 }
 
+val vavrVersion: String by project
 val weldVersion: String by project
 val cdiApiVersion: String by project
 val jandexVersion: String by project
 val slf4jVersion: String by project
 val logbackVersion: String by project
-val junit4Version: String by project
 val assertkVersion: String by project
 val assertjVersion: String by project
 val junitJupiterVersion: String by project
 
 dependencies {
-  implementation(kotlin("stdlib"))
-  implementation(kotlin("reflect"))
-  //implementation("io.vavr:vavr:0.10.0")
   implementation("org.jboss.weld.se:weld-se-core:$weldVersion")
   implementation("javax.enterprise:cdi-api:$cdiApiVersion")
   implementation("org.jboss:jandex:$jandexVersion")
+
   implementation("org.slf4j:slf4j-api:$slf4jVersion")
   implementation("ch.qos.logback:logback-classic:$logbackVersion")
   annotationProcessor("org.projectlombok:lombok:$lombokVersion")
+  implementation("io.vavr:vavr:$vavrVersion")
 
-  testImplementation("junit:junit:$junit4Version")
+  implementation(kotlin("stdlib"))
+  implementation(kotlin("reflect"))
+  implementation(kotlin("test-junit"))
+  implementation(kotlin("test-junit5"))
   testImplementation("com.willowtreeapps.assertk:assertk-jvm:$assertkVersion")
-  testImplementation("org.assertj:assertj-core:$assertjVersion")
+
   testImplementation(platform("org.junit:junit-bom:$junitJupiterVersion"))
-  testImplementation("org.junit.jupiter:junit-jupiter-api")
-  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
   testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
-  testRuntime("org.junit.platform:junit-platform-launcher")
+  testRuntimeOnly("org.junit.jupiter:junit-jupiter")
+
+  testImplementation("org.assertj:assertj-core:$assertjVersion")
 }
 
 val mainClass: String by project
@@ -140,4 +142,4 @@ tasks {
   }
 }
 
-defaultTasks("clean", "sources", "fatJar", "installDist")
+defaultTasks("clean", "sources", "fatJar", "installDist", "test")

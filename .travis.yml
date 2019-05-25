@@ -1,0 +1,41 @@
+notifications:
+  email: false
+git:
+  quiet: true
+  depth: 1
+env:
+  global:
+    - TERM=dumb
+language: java
+jdk: openjdk8
+branches:
+  only:
+    - master
+install: true
+jobs:
+  include:
+    # maven
+    - stage: maven
+      name: "Java 8"
+      jdk: openjdk8
+      script:
+        - cd $TRAVIS_BUILD_DIR
+        - mvn -N io.takari:maven:wrapper -Dmaven=3.6.1
+        - ./mvnw
+    - stage: maven
+      name: "Java 11"
+      jdk: openjdk11
+      script: cd $TRAVIS_BUILD_DIR && ./mvnw
+    # gradle
+    - stage: gradle
+      name: "Java 8"
+      jdk: openjdk8
+      script: cd $TRAVIS_BUILD_DIR && ./gradlew
+    - stage: gradle
+      name: "Java 11"
+      jdk: openjdk11
+      script: cd $TRAVIS_BUILD_DIR && ./gradlew
+cache:
+  directories:
+    - ~/.gradle
+    - ~/.m2

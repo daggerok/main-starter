@@ -1,4 +1,4 @@
-# main-starter
+# main-starter [![Build Status](https://travis-ci.org/daggerok/main-starter.svg?branch=master)](https://travis-ci.org/daggerok/main-starter)
 JVM (java / kotlin) starter using Gradle / Maven build tools.
 
 ## getting started
