@@ -27,6 +27,10 @@ jobs:
       name: "Java 11"
       jdk: openjdk11
       script: cd $TRAVIS_BUILD_DIR && ./mvnw
+    - stage: maven
+      name: "Java 11"
+      jdk: openjdk11
+      script: cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates
     # gradle
     - stage: gradle
       name: "Java 8"
@@ -36,6 +40,10 @@ jobs:
       name: "Java 11"
       jdk: openjdk11
       script: cd $TRAVIS_BUILD_DIR && ./gradlew
+    - stage: gradle
+      name: "Java 11"
+      jdk: openjdk11
+      script: cd $TRAVIS_BUILD_DIR && ./gradlew dependencyUpdates -Drevision=release
 cache:
   directories:
     - ~/.gradle

@@ -7,6 +7,7 @@ plugins {
   kotlin("jvm") version Globals.kotlinVersion
   kotlin("plugin.spring") version Globals.kotlinVersion
   id("io.freefair.lombok") version Globals.Gradle.Plugin.lombokVersion
+  id("com.github.ben-manes.versions") version Globals.Gradle.Plugin.versionsVersion
 }
 
 group = Globals.Project.groupId
@@ -133,3 +134,18 @@ tasks {
 }
 
 defaultTasks("clean", "sources", "fatJar", "installDist", "test")
+
+//// ./gradlew dependencyUpdates -Drevision=release
+//tasks.named<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask>("dependencyUpdates") {
+//  resolutionStrategy {
+//    componentSelection {
+//      all {
+//        val rejected = listOf("alpha", "beta", "rc", "cr", "m", "preview", "b", "ea", "M1", "BUILD-SNAPSHOT", "SNAPSHOT")
+//            .map { qualifier -> Regex("(?i).*[.-]$qualifier[.\\d-+]*") }
+//            .any { it.matches(candidate.version) }
+//        if (rejected) reject("Release candidate")
+//      }
+//    }
+//  }
+//  outputFormatter = "plain" // "json"
+//}

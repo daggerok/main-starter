@@ -50,7 +50,10 @@ TODO / FIXME:
 NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter)_
 
 <!--
+_update versions_
+
 ```bash
-mvn clean ; mvn -U ; mvn versions:display-plugin-updates
+./mvnw versions:display-plugin-updates
+./gradlew dependencyUpdates -Drevision=release
 ```
 -->
