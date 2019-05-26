@@ -4,16 +4,13 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 plugins {
   java
   application
-  kotlin("jvm") version "1.3.31"
-  kotlin("plugin.spring") version "1.3.31"
-  id("io.franzbecker.gradle-lombok") version "3.0.0"
+  kotlin("jvm") version Globals.kotlinVersion
+  kotlin("plugin.spring") version Globals.kotlinVersion
+  id("io.freefair.lombok") version Globals.Gradle.Plugin.lombokVersion
 }
 
-tasks.withType(Wrapper::class.java) {
-  val gradleWrapperVersion: String by project
-  gradleVersion = gradleWrapperVersion
-  distributionType = Wrapper.DistributionType.BIN
-}
+group = Globals.Project.groupId
+version = Globals.Project.version
 
 sourceSets {
   main {
@@ -24,85 +21,80 @@ sourceSets {
   }
 }
 
-val javaVersion = JavaVersion.VERSION_1_8
-
-tasks.withType<KotlinCompile>().configureEach {
-  kotlinOptions {
-    freeCompilerArgs += "-Xjsr305=strict"
-    jvmTarget = "$javaVersion"
-  }
-}
-
 java {
-  sourceCompatibility = javaVersion
-  targetCompatibility = javaVersion
+  sourceCompatibility = Globals.javaVersion
+  targetCompatibility = Globals.javaVersion
 }
 
 repositories {
+  jcenter()
   mavenCentral()
 }
 
-val lombokVersion: String by project
-
 lombok {
-  version = lombokVersion
+  version.set(Globals.lombokVersion)
 }
 
-val vavrVersion: String by project
-val weldVersion: String by project
-val cdiApiVersion: String by project
-val jandexVersion: String by project
-val slf4jVersion: String by project
-val logbackVersion: String by project
-val assertkVersion: String by project
-val assertjVersion: String by project
-val junitJupiterVersion: String by project
-
 dependencies {
-  implementation("org.jboss.weld.se:weld-se-core:$weldVersion")
-  implementation("javax.enterprise:cdi-api:$cdiApiVersion")
-  implementation("org.jboss:jandex:$jandexVersion")
+  implementation("org.jboss.weld.se:weld-se-core:${Globals.weldVersion}")
+  implementation("javax.enterprise:cdi-api:${Globals.cdiApiVersion}")
+  implementation("org.jboss:jandex:${Globals.jandexVersion}")
 
-  implementation("org.slf4j:slf4j-api:$slf4jVersion")
-  implementation("ch.qos.logback:logback-classic:$logbackVersion")
-  annotationProcessor("org.projectlombok:lombok:$lombokVersion")
-  implementation("io.vavr:vavr:$vavrVersion")
+  implementation("org.slf4j:slf4j-api:${Globals.slf4jVersion}")
+  implementation("ch.qos.logback:logback-classic:${Globals.logbackVersion}")
+  annotationProcessor("org.projectlombok:lombok:${Globals.lombokVersion}")
+  implementation("io.vavr:vavr:${Globals.vavrVersion}")
 
   implementation(kotlin("stdlib"))
   implementation(kotlin("reflect"))
   implementation(kotlin("test-junit"))
-  implementation(kotlin("test-junit5"))
-  testImplementation("com.willowtreeapps.assertk:assertk-jvm:$assertkVersion")
+  //implementation("org.jetbrains.kotlin:kotlin-test-junit5:${Globals.kotlinVersion}") { ... }
+  implementation(kotlin("test-junit5") as String) {
+    exclude(group = "org.junit.vintage", module = "*")
+  }
+  testImplementation("com.willowtreeapps.assertk:assertk-jvm:${Globals.assertkVersion}") {
+    exclude(group = "org.jetbrains.kotlin", module = "*")
+  }
 
-  testImplementation(platform("org.junit:junit-bom:$junitJupiterVersion"))
-  testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
-  testRuntimeOnly("org.junit.jupiter:junit-jupiter")
+  testImplementation(platform("org.junit:junit-bom:${Globals.junitJupiterVersion}"))
+  testImplementation("org.junit.vintage:junit-vintage-engine")
+  testImplementation("org.junit.jupiter:junit-jupiter")
 
-  testImplementation("org.assertj:assertj-core:$assertjVersion")
+  testImplementation("org.assertj:assertj-core:${Globals.assertjVersion}")
 }
-
-val mainClass: String by project
 
 application {
-  mainClassName = mainClass
-}
-
-tasks.withType<Test> {
-  useJUnitPlatform()
-  testLogging {
-    showExceptions = true
-    showStandardStreams = true
-    events(PASSED, SKIPPED, FAILED)
-  }
+  mainClassName = Globals.Project.mainClass
 }
 
 tasks {
+  withType(Wrapper::class.java) {
+    gradleVersion = Globals.Gradle.wrapperVersion
+    distributionType = Wrapper.DistributionType.BIN
+  }
+
+  withType<KotlinCompile>().configureEach {
+    kotlinOptions {
+      freeCompilerArgs += "-Xjsr305=strict"
+      jvmTarget = "${Globals.javaVersion}"
+    }
+  }
+
+  withType<Test> {
+    useJUnitPlatform()
+    testLogging {
+      showExceptions = true
+      showStandardStreams = true
+      events(PASSED, SKIPPED, FAILED)
+    }
+  }
+
   register("fatJar", Jar::class.java) {
     //archiveAppendix.set("all")
     archiveClassifier.set("all")
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
-      attributes("Main-Class" to mainClass)
+      attributes("Main-Class" to Globals.Project.mainClass)
     }
     from(configurations.runtimeClasspath.get()
         .onEach { println("add from dependencies: ${it.name}") }
@@ -111,27 +103,25 @@ tasks {
     sourcesMain.allSource.forEach { println("add from sources: ${it.name}") }
     from(sourcesMain.output)
   }
-}
 
-tasks.create<Zip>("sources") {
-  dependsOn("clean")
-  shouldRunAfter("clean", "assemble")
-  description = "Archives sources in a zip file"
-  group = "Archive"
-  from("src") {
-    into("src")
+  create<Zip>("sources") {
+    dependsOn("clean")
+    shouldRunAfter("clean", "assemble")
+    description = "Archives sources in a zip file"
+    group = "Archive"
+    from("src") {
+      into("src")
+    }
+    from(".gitignore")
+    from(".java-version")
+    from(".travis.yml")
+    from("build.gradle.kts")
+    from("pom.xml")
+    from("README.md")
+    from("settings.gradle.kts")
+    archiveFileName.set("${project.buildDir}/sources-${Globals.Project.version}.zip")
   }
-  from(".gitignore")
-  from(".java-version")
-  from(".travis.yml")
-  from("build.gradle.kts")
-  from("pom.xml")
-  from("README.md")
-  from("settings.gradle.kts")
-  archiveFileName.set("${project.buildDir}/sources-${project.version}.zip")
-}
 
-tasks {
   named("clean") {
     doLast {
       delete(

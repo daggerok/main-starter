@@ -107,6 +107,12 @@
       <artifactId>assertk-jvm</artifactId>
       <version>${assertk.version}</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion><!-- let's exclude reflect and stdlib (add it manually, see above) -->
+          <groupId>org.jetbrains.kotlin</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
@@ -117,11 +123,7 @@
       <exclusions>
         <exclusion>
           <groupId>org.junit.jupiter</groupId>
-          <artifactId>junit-jupiter-api</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.junit.jupiter</groupId>
-          <artifactId>junit-jupiter-engine</artifactId>
+          <artifactId>*</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -155,18 +157,17 @@
     <defaultGoal>clean package</defaultGoal>
 
     <plugins>
-      <plugin><!-- kotlin 1st plugin -->
+      <plugin><!-- kotlin + java -->
         <artifactId>kotlin-maven-plugin</artifactId>
         <groupId>org.jetbrains.kotlin</groupId>
         <version>${kotlin.version}</version>
         <configuration>
-          <jvmTarget>${maven.compiler.target}</jvmTarget>
+          <jvmTarget>${java.version}</jvmTarget>
           <args>
             <arg>-Xjsr305=strict</arg>
           </args>
           <compilerPlugins>
-            <plugin>no-arg</plugin>
-            <plugin>all-open</plugin>
+            <plugin>spring</plugin>
           </compilerPlugins>
         </configuration>
         <executions>
@@ -209,14 +210,10 @@
         </dependencies>
       </plugin>
 
-      <plugin><!-- kotlin 2dn plugin -->
+      <plugin><!-- kotlin + java -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler-plugin.version}</version>
-        <configuration>
-          <source>${maven.compiler.source}</source>
-          <target>${maven.compiler.target}</target>
-        </configuration>
         <executions>
           <execution>
             <id>default-compile</id>
@@ -243,13 +240,13 @@
         </executions>
       </plugin>
 
-      <plugin>
+      <plugin><!-- kotlin jupiter-->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${maven-surefire-plugin.version}</version>
       </plugin>
 
-      <plugin><!-- main + fat jar -->
+      <plugin><!-- main fat jar -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
         <version>${maven-shade-plugin.version}</version>
@@ -272,7 +269,7 @@
         </executions>
       </plugin>
 
-      <plugin><!-- zip -->
+      <plugin><!-- sources zip -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
         <version>${maven-assembly-plugin.version}</version>
