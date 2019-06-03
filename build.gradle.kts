@@ -39,13 +39,7 @@ repositories {
 }
 
 dependencies {
-  implementation("org.springframework:spring-context-support:${Globals.springVersion}")
-
-  implementation("ch.qos.logback:logback-classic:${Globals.logbackVersion}")
-  implementation("org.slf4j:slf4j-api:${Globals.slf4jVersion}")
-
   implementation("org.scala-lang:scala-library:${Globals.scalaVersion}")
-
   testImplementation(platform("org.junit:junit-bom:${Globals.junitJupiterVersion}"))
   testImplementation("org.junit.jupiter:junit-jupiter")
   testImplementation("junit:junit:${Globals.junitVersion}")

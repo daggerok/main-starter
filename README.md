@@ -1,10 +1,10 @@
 # main-starter
-Spring scala starter using Gradle / Maven build tools.
+Scala starter using Gradle / Maven build tools.
 
 ## getting started
 
 ```bash
-git clone -b spring-scala --depth=1 https://github.com/daggerok/main-starter.git
+git clone -b scala --depth=1 https://github.com/daggerok/main-starter.git
 cd main-starter
 rm -rf .git
 ```

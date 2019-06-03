@@ -16,9 +16,6 @@
     <mainClass>com.github.daggerok.Main</mainClass>
 
     <junit.version>4.12</junit.version>
-    <slf4j.version>1.7.26</slf4j.version>
-    <logback.version>1.2.3</logback.version>
-    <spring.version>5.1.7.RELEASE</spring.version>
     <junit-jupiter.version>5.4.2</junit-jupiter.version>
 
     <java.version>1.8</java.version>
@@ -57,23 +54,6 @@
   </dependencyManagement>
 
   <dependencies>
-    <!-- spring context -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context-support</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
-    <!-- logging -->
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>${logback.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
-    </dependency>
     <!-- scala -->
     <dependency>
       <groupId>org.scala-lang</groupId>
