@@ -8,10 +8,6 @@ env:
     - TERM=dumb
 language: java
 jdk: openjdk8
-branches:
-  only:
-    - all
-    - master
 install: true
 jobs:
   include:
