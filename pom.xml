@@ -8,18 +8,20 @@
   <artifactId>main-starter</artifactId>
   <version>1.0-SNAPSHOT</version>
 
+  <!--<prerequisites>
+    <maven>3.3.9</maven>
+  </prerequisites>-->
+
   <properties>
     <mainClass>com.github.daggerok.Main</mainClass>
 
-    <akka.version>2.5.22</akka.version>
-    <scala-baseline.version>2.12</scala-baseline.version>
-    <scala.version>${scala-baseline.version}.8</scala.version>
-    <scalatest.version>3.0.7</scalatest.version>
-    <spring.version>5.1.6.RELEASE</spring.version>
+    <junit.version>4.12</junit.version>
+    <slf4j.version>1.7.26</slf4j.version>
     <logback.version>1.2.3</logback.version>
-    <slf4j-api.version>1.7.26</slf4j-api.version>
-    <junit-jupiter.version>5.5.0-M1</junit-jupiter.version>
-    <junit4.version>4.12</junit4.version>
+    <scalactic.version>3.0.7</scalactic.version>
+    <scalatest.version>3.0.7</scalatest.version>
+    <spring.version>5.1.7.RELEASE</spring.version>
+    <junit-jupiter.version>5.4.2</junit-jupiter.version>
 
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -28,18 +30,24 @@
     <encoding>UTF-8</encoding>
     <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
     <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
+
+    <maven-shade-plugin.version>3.2.1</maven-shade-plugin.version>
+    <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
+    <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
+    <maven-assembly-plugin.version>3.1.1</maven-assembly-plugin.version>
+    <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+    <build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
+
+    <scala.version>${scala-baseline.version}.${scala-minor.version}</scala.version>
+    <scala-baseline.version>2.12</scala-baseline.version>
+    <!--<scala-minor.version>3</scala-minor.version>
+    <scala-maven-plugin.version>3.2.1</scala-maven-plugin.version>-->
+    <scala-minor.version>6</scala-minor.version>
+    <scala-maven-plugin.version>4.0.2</scala-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-framework-bom</artifactId>
-        <version>${spring.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
@@ -51,34 +59,13 @@
   </dependencyManagement>
 
   <dependencies>
+    <!-- spring context -->
     <dependency>
-      <groupId>org.scala-lang</groupId>
-      <artifactId>scala-library</artifactId>
-      <version>${scala.version}</version>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>${spring.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.scalatest</groupId>
-      <artifactId>scalatest_${scala-baseline.version}</artifactId>
-      <version>${scalatest.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.typesafe.akka</groupId>
-      <artifactId>akka-actor_${scala-baseline.version}</artifactId>
-      <version>${akka.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.typesafe.akka</groupId>
-      <artifactId>akka-testkit_${scala-baseline.version}</artifactId>
-      <version>${akka.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.typesafe.akka</groupId>
-      <artifactId>akka-slf4j_${scala-baseline.version}</artifactId>
-      <version>${akka.version}</version>
-    </dependency>
+    <!-- logging -->
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
@@ -87,141 +74,92 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>${slf4j-api.version}</version>
+      <version>${slf4j.version}</version>
     </dependency>
-
+    <!-- scala -->
     <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context-support</artifactId>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-library</artifactId>
+      <version>${scala.version}</version>
     </dependency>
-
     <dependency>
-      <groupId>org.junit.platform</groupId>
-      <artifactId>junit-platform-launcher</artifactId>
+      <groupId>org.scalactic</groupId>
+      <artifactId>scalactic_${scala-baseline.version}</artifactId>
+      <version>${scalactic.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.scala-lang</groupId>
+          <artifactId>scala-library</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.scalatest</groupId>
+      <artifactId>scalatest_${scala-baseline.version}</artifactId>
+      <version>${scalatest.version}</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.scala-lang</groupId>
+          <artifactId>scala-library</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
+    <!-- junit 5 jupiter -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit-jupiter.version}</version>
       <scope>test</scope>
     </dependency>
+    <!-- junit 4 vintage -->
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.vintage</groupId>
       <artifactId>junit-vintage-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit4.version}</version>
-      <scope>test</scope>
+      <version>${junit-jupiter.version}</version>
+      <scope>runtime</scope>
     </dependency>
   </dependencies>
 
   <build>
-    <defaultGoal>clean package</defaultGoal>
-    <sourceDirectory>src/main/scala</sourceDirectory>
-    <testSourceDirectory>src/test/scala</testSourceDirectory>
-
+    <defaultGoal><!-- clean package --> test</defaultGoal>
+    <!--<defaultGoal>clean package</defaultGoal>-->
+    <!-- scala -->
+    <sourceDirectory>${project.basedir}/src/main/scala</sourceDirectory>
+    <testSourceDirectory>${project.basedir}/src/test/scala</testSourceDirectory>
+    <!-- scala -->
     <plugins>
       <plugin>
-        <!-- see http://davidb.github.com/scala-maven-plugin -->
         <groupId>net.alchim31.maven</groupId>
         <artifactId>scala-maven-plugin</artifactId>
-        <version>3.3.2</version>
+        <version>${scala-maven-plugin.version}</version>
         <executions>
           <execution>
             <goals>
               <goal>compile</goal>
+              <goal>add-source</goal>
               <goal>testCompile</goal>
             </goals>
-            <configuration>
-              <args>
-                <arg>-dependencyfile</arg>
-                <arg>${project.build.directory}/.scala_dependencies</arg>
-              </args>
-            </configuration>
           </execution>
         </executions>
       </plugin>
+      <!-- jupiter -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.21.0</version>
-        <configuration>
-          <!-- Tests will be run with scalatest-maven-plugin instead -->
-          <skipTests>true</skipTests>
-        </configuration>
+        <version>${maven-surefire-plugin.version}</version>
       </plugin>
+      <!-- zip -->
       <plugin>
-        <groupId>org.scalatest</groupId>
-        <artifactId>scalatest-maven-plugin</artifactId>
-        <version>2.0.0</version>
-        <configuration>
-          <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-          <junitxml>.</junitxml>
-          <filereports>TestSuiteReport.txt</filereports>
-          <!-- Comma separated list of JUnit test class names to execute -->
-          <jUnitClasses>
-            com.github.daggerok.FortyTwoTest,
-            com.github.daggerok.ScalaJunitTest,
-            <!-- this test is in src/test/java, for some reasons, scalatest plugin cannot run it... -->
-            <!--com.github.daggerok.GradleJavaJunitTest,-->
-          </jUnitClasses>
-        </configuration>
-        <executions>
-          <execution>
-            <id>test</id>
-            <goals>
-              <goal>test</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.0</version>
-        <configuration>
-          <source>${maven.compiler.source}</source>
-          <target>${maven.compiler.target}</target>
-        </configuration>
-        <executions>
-          <execution>
-            <id>default-compile</id>
-            <phase>none</phase>
-          </execution>
-          <execution>
-            <id>default-testCompile</id>
-            <phase>none</phase>
-          </execution>
-          <execution>
-            <id>java-compile</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>java-test-compile</id>
-            <phase>test-compile</phase>
-            <goals>
-              <goal>testCompile</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin><!-- zip -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.1.1</version>
+        <version>${maven-assembly-plugin.version}</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -229,29 +167,21 @@
               <goal>single</goal>
             </goals>
             <configuration>
-              <!--<descriptorRefs>
-                <descriptorRef>jar-with-dependencies</descriptorRef>
-              </descriptorRefs>
-              <archive>
-                <manifest>
-                  <mainClass>com.github.daggerok.Main</mainClass>
-                </manifest>
-              </archive>-->
               <appendAssemblyId>true</appendAssemblyId>
+              <ignoreMissingDescriptor>true</ignoreMissingDescriptor>
               <descriptors>
                 <descriptor>src/main/assembly/sources.xml</descriptor>
               </descriptors>
-              <ignoreMissingDescriptor>true</ignoreMissingDescriptor>
               <descriptorRefs>src</descriptorRefs><!-- built-in descriptors: bin, jar-with-dependencies, src, project -->
             </configuration>
           </execution>
         </executions>
       </plugin>
-
+      <!-- javadoc -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.0.1</version>
+        <version>${maven-javadoc-plugin.version}</version>
         <configuration>
           <failOnError>false</failOnError>
         </configuration>
@@ -264,11 +194,11 @@
           </execution>
         </executions>
       </plugin>
-
+      <!-- source -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>3.0.1</version>
+        <version>${maven-source-plugin.version}</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -278,11 +208,11 @@
           </execution>
         </executions>
       </plugin>
-
+      <!-- main / fatJar -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.1</version>
+        <version>${maven-shade-plugin.version}</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -314,11 +244,11 @@
           </execution>
         </executions>
       </plugin>
-
-      <plugin><!-- eclipse -->
+      <!-- eclipse -->
+      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>${build-helper-maven-plugin.version}</version>
         <executions>
           <execution>
             <id>add-source</id>

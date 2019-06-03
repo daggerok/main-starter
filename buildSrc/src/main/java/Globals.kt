@@ -10,17 +10,18 @@ object Globals {
   }
 
   val javaVersion = JavaVersion.VERSION_1_8
+  //const val scalaMinorVersion = "3"
   const val scalaBaselineVersion = "2.12"
-  const val scalaMinorVersion = "8"
+  const val scalaMinorVersion = "6"
   const val scalaVersion = "$scalaBaselineVersion.$scalaMinorVersion"
 
-  const val akkaVersion = "2.5.22"
-  const val junit4Version = "4.12"
+  const val junitVersion = "4.12"
   const val slf4jVersion = "1.7.26"
   const val logbackVersion = "1.2.3"
+  const val scalacticVersion = "3.0.7"
   const val scalatestVersion = "3.0.7"
-  const val springVersion = "5.1.6.RELEASE"
-  const val junitJupiterVersion = "5.5.0-M1"
+  const val junitJupiterVersion = "5.4.2"
+  const val springVersion = "5.1.7.RELEASE"
 
   object Gradle {
     const val wrapperVersion = "5.4.1"

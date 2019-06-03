@@ -1,15 +1,12 @@
 # main-starter
-Scala Akka starter using Gradle / Maven build tools.
+Spring scala starter using Gradle / Maven build tools.
 
 ## getting started
 
 ```bash
-git clone -b akka-scala --depth=1 https://github.com/daggerok/main-starter.git
+git clone -b spring-scala --depth=1 https://github.com/daggerok/main-starter.git
 cd main-starter
 rm -rf .git
-
-gradle :wrapper
-mvn -N io.takari:maven:wrapper -Dmaven=3.6.1
 ```
 
 ## maven
@@ -54,7 +51,14 @@ NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://gi
 
 _resources_
 
-* [Akka HTTP tutorial](https://doc.akka.io/docs/akka-http/current/introduction.html)
-* [Akka Gradle](http://www.sureshpw.com/2015/10/building-akka-bundle-with-all.html)
-* [Akka Maven shade plugin configuration](https://doc.akka.io/docs/akka/current/general/configuration.html)
-* [Akka colored logging: SLF4J + logback](https://doc.akka.io/docs/akka/current/logging.html)
+* [Functional Programming Principles in Scala](https://www.youtube.com/channel/UC606CODOUaA3-E5LcC5yKAQ)
+* [Principles of Reactive Programming in Scala](https://www.youtube.com/playlist?list=PLMhMDErmC1TdBMxd3KnRfYiBV2ELvLyxN)
+
+<!--
+_update versions_
+
+```bash
+./mvnw versions:display-property-updates
+./gradlew dependencyUpdates -Drevision=release
+```
+-->

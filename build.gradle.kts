@@ -39,23 +39,21 @@ repositories {
 }
 
 dependencies {
-  implementation("org.scala-lang:scala-library:${Globals.scalaVersion}")
-  testImplementation("org.scalatest:scalatest_${Globals.scalaBaselineVersion}:${Globals.scalatestVersion}")
-  implementation("com.typesafe.akka:akka-actor_${Globals.scalaBaselineVersion}:${Globals.akkaVersion}")
-  testImplementation("com.typesafe.akka:akka-testkit_${Globals.scalaBaselineVersion}:${Globals.akkaVersion}")
-  implementation("com.typesafe.akka:akka-slf4j_${Globals.scalaBaselineVersion}:${Globals.akkaVersion}")
-  implementation("org.slf4j:slf4j-api:${Globals.slf4jVersion}")
-  implementation("ch.qos.logback:logback-classic:${Globals.logbackVersion}")
+  implementation("org.springframework:spring-context-support:${Globals.springVersion}")
 
-  implementation(platform("org.springframework:spring-framework-bom:${Globals.springVersion}"))
-  implementation("org.springframework:spring-context-support")
+  implementation("ch.qos.logback:logback-classic:${Globals.logbackVersion}")
+  implementation("org.slf4j:slf4j-api:${Globals.slf4jVersion}")
+
+  implementation("org.scala-lang:scala-library:${Globals.scalaVersion}")
+  implementation("org.scalactic:scalactic_${Globals.scalaBaselineVersion}:${Globals.scalacticVersion}") {
+    exclude(group = "org.scala-lang") }
+  testImplementation("org.scalatest:scalatest_${Globals.scalaBaselineVersion}:${Globals.scalatestVersion}") {
+    exclude(group = "org.scala-lang") }
 
   testImplementation(platform("org.junit:junit-bom:${Globals.junitJupiterVersion}"))
-  testRuntime("org.junit.platform:junit-platform-launcher")
-  testImplementation("org.junit.jupiter:junit-jupiter-api")
-  //testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+  testImplementation("org.junit.jupiter:junit-jupiter")
+  testImplementation("junit:junit:${Globals.junitVersion}")
   testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
-  testImplementation("junit:junit:${Globals.junit4Version}")
 }
 
 tasks.withType<Test> {
