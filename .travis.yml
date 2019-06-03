@@ -12,6 +12,9 @@ branches:
   only:
     - all
     - master
+    - scala
+    - spring
+    - spring-scala
 install: true
 jobs:
   include:

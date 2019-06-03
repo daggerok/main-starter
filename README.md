@@ -12,6 +12,10 @@ git co maven-kotlin
 git co gradle
 git co maven
 git co all
+# ...
+git co scala
+git co spring
+git co spring-scala
 
 rm -rf .git
 # ...
@@ -28,11 +32,13 @@ rm -rf .git
 * [akka](https://github.com/daggerok/main-starter/tree/akka/)
 * [akka-http](https://github.com/daggerok/main-starter/tree/akka-http/)
 * [akka-scala](https://github.com/daggerok/main-starter/tree/akka-scala/)
+* [scala](https://github.com/daggerok/main-starter/tree/scala/)
 * [spring](https://github.com/daggerok/main-starter/tree/spring/)
 * [spring-all](https://github.com/daggerok/main-starter/tree/spring-all/)
 * [spring-boot-all](https://github.com/daggerok/main-starter/tree/spring-boot-all/)
 * [spring-boot](https://github.com/daggerok/main-starter/tree/spring-boot/)
-* [spring-fu-jafu](https://github.com/daggerok/main-starter/tree/spring-fu-jafu/)
+* [spring-scala](https://github.com/daggerok/main-starter/tree/spring-fu-jafu/)
+* [spring-fu-jafu](https://github.com/daggerok/main-starter/tree/spring-scala/)
 * [cdi-all](https://github.com/daggerok/main-starter/tree/cdi-all/)
 * [cdi](https://github.com/daggerok/main-starter/tree/cdi/)
 * [all](https://github.com/daggerok/main-starter/tree/all/)
@@ -53,7 +59,7 @@ NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://gi
 _update versions_
 
 ```bash
-./mvnw versions:display-plugin-updates
+./mvnw versions:display-property-updates
 ./gradlew dependencyUpdates -Drevision=release
 ```
 -->
