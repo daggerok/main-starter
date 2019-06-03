@@ -45,10 +45,6 @@ dependencies {
   implementation("org.slf4j:slf4j-api:${Globals.slf4jVersion}")
 
   implementation("org.scala-lang:scala-library:${Globals.scalaVersion}")
-  implementation("org.scalactic:scalactic_${Globals.scalaBaselineVersion}:${Globals.scalacticVersion}") {
-    exclude(group = "org.scala-lang") }
-  testImplementation("org.scalatest:scalatest_${Globals.scalaBaselineVersion}:${Globals.scalatestVersion}") {
-    exclude(group = "org.scala-lang") }
 
   testImplementation(platform("org.junit:junit-bom:${Globals.junitJupiterVersion}"))
   testImplementation("org.junit.jupiter:junit-jupiter")

@@ -18,8 +18,6 @@ object Globals {
   const val junitVersion = "4.12"
   const val slf4jVersion = "1.7.26"
   const val logbackVersion = "1.2.3"
-  const val scalacticVersion = "3.0.7"
-  const val scalatestVersion = "3.0.7"
   const val junitJupiterVersion = "5.4.2"
   const val springVersion = "5.1.7.RELEASE"
 
