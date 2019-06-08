@@ -8,9 +8,9 @@ object Globals {
   }
 
   val javaVersion = JavaVersion.VERSION_1_8
+  const val vavrVersion = "0.10.0"
   const val lombokVersion = "1.18.8"
   const val junitVersion = "4.13-beta-3"
-  const val vavrVersion = "1.0.0-alpha-2"
   const val junitJupiterVersion = "5.5.0-RC1"
 
   object Gradle {
