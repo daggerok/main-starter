@@ -1,5 +1,5 @@
-# main-starter
-Java starter using Gradle / Maven build tools.
+# rsocket-playground
+Java RSocket playground
 
 ## getting started
 

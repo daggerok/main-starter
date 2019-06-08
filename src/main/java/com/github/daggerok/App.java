@@ -36,7 +36,7 @@ public class App {
 
   public static void main(String[] args) {
     ConfigurableApplicationContext ctx = SpringApplication.run(App.class, args);
-    Function<String, String> function = ctx.getBean(Function.class);
+    @SuppressWarnings("unchecked") Function<String, String> function = ctx.getBean(Function.class);
 
     log.info("result: {}", function.apply("Max"));
     log.info(ctx.getBean(String.class));

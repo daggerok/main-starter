@@ -37,7 +37,7 @@ class AppTest {
     GenericApplicationContext ctx = new AnnotationConfigApplicationContext(App.class);
     assertThat(ctx).isNotNull();
 
-    Function<String, String> greeter = ctx.getBean(Function.class);
+    @SuppressWarnings("unchecked") Function<String, String> greeter = ctx.getBean(Function.class);
     assertThat(greeter.apply("Test")).isNotNull()
                                      .isEqualTo("hello, Test!");
   }
