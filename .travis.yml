@@ -14,6 +14,7 @@ branches:
     - master
     - scala
     - spring
+    - spring-boot
     - spring-scala
 install: true
 jobs:
