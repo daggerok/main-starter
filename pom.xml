@@ -25,7 +25,7 @@
     <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
 
     <!-- mvn versions:display-property-updates -->
-    <vavr.version>1.0.0-alpha-2</vavr.version>
+    <vavr.version>0.10.0</vavr.version>
     <junit.version>4.13-beta-3</junit.version>
     <junit-jupiter.version>5.5.0-RC1</junit-jupiter.version>
     <spring-boot.version>${project.parent.version}</spring-boot.version>
