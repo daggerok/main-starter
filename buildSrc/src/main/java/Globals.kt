@@ -4,7 +4,7 @@ object Globals {
   object Project {
     const val artifactId = "main-starter"
     const val groupId = "com.github.daggerok"
-    const val version = "1.2-SNAPSHOT"
+    const val version = "1.3-SNAPSHOT"
     const val mainClass = "com.github.daggerok.App"
   }
 
@@ -18,13 +18,13 @@ object Globals {
   const val jandexVersion = "2.1.1.Final"
   const val slf4jVersion = "1.8.0-beta4"
   const val logbackVersion = "1.3.0-alpha4"
-  const val assertkVersion = "0.16"
+  const val assertkVersion = "0.17"
   const val assertjVersion = "3.12.2"
-  const val junitJupiterVersion = "5.5.0-M1"
-  const val junitPlatformVersion = "1.5.0-M1"
+  const val junitJupiterVersion = "5.5.0-RC1"
+  const val junitPlatformVersion = "1.5.0-RC1"
 
   object Gradle {
-    const val wrapperVersion = "5.4.1"
+    const val wrapperVersion = "5.5-rc-2"
 
     object Plugin {
       const val lombokVersion = "3.6.4"
