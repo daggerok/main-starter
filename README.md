@@ -1,5 +1,5 @@
-# rsocket-playground
-Java RSocket playground
+# main-starter [![Build Status](https://travis-ci.org/daggerok/main-starter.svg?branch=spring-boot)](https://travis-ci.org/daggerok/main-starter)
+Spring Boot Java starter using Gradle / Maven build tools.
 
 ## getting started
 
