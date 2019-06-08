@@ -21,31 +21,31 @@ jobs:
   include:
     # maven
     - stage: maven
-      name: "Java 8"
+      name: "Maven Java 8 Build"
       jdk: openjdk8
       script:
         - cd $TRAVIS_BUILD_DIR
         - mvn -N io.takari:maven:wrapper -Dmaven=3.6.1
         - ./mvnw
     - stage: maven
-      name: "Java 11"
+      name: "Maven Java 11 Build"
       jdk: openjdk11
       script: cd $TRAVIS_BUILD_DIR && ./mvnw
     - stage: maven
-      name: "Java 11"
+      name: "Maven Java 11 Updates"
       jdk: openjdk11
       script: cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates
     # gradle
     - stage: gradle
-      name: "Java 8"
+      name: "Gradle Java 8 Build"
       jdk: openjdk8
       script: cd $TRAVIS_BUILD_DIR && ./gradlew
     - stage: gradle
-      name: "Java 11"
+      name: "Gradle Java 11 Build"
       jdk: openjdk11
       script: cd $TRAVIS_BUILD_DIR && ./gradlew
     - stage: gradle
-      name: "Java 11"
+      name: "Gradle Java 11 Updates"
       jdk: openjdk11
       script: cd $TRAVIS_BUILD_DIR && ./gradlew dependencyUpdates -Drevision=release
 cache:
