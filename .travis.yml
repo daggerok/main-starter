@@ -16,6 +16,8 @@ branches:
     - master
     - scala
     - spring
+    - gradle
+    - gradle-kotlin
     - spring-boot
     - spring-boot-all
     - spring-scala
