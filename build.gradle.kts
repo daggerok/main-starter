@@ -1,11 +1,8 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 
 plugins {
   java
   application
-  kotlin("jvm") version Globals.kotlinVersion
-  kotlin("plugin.spring") version Globals.kotlinVersion
   id("io.freefair.lombok") version Globals.Gradle.Plugin.lombokVersion
   id("com.github.ben-manes.versions") version Globals.Gradle.Plugin.versionsVersion
 }
@@ -13,25 +10,13 @@ plugins {
 group = Globals.Project.groupId
 version = Globals.Project.version
 
-sourceSets {
-  main {
-    java.srcDir("src/main/kotlin")
-  }
-  test {
-    java.srcDir("src/test/kotlin")
-  }
-}
-
 java {
   sourceCompatibility = Globals.javaVersion
   targetCompatibility = Globals.javaVersion
 }
 
 repositories {
-  // jcenter()
   mavenCentral()
-  // maven(url = "https://repo.spring.io/milestone")
-  // maven(url = "https://repo.spring.io/snapshot")
 }
 
 lombok {
@@ -48,17 +33,10 @@ dependencies {
   annotationProcessor("org.projectlombok:lombok:${Globals.lombokVersion}")
   implementation("io.vavr:vavr:${Globals.vavrVersion}")
 
-  implementation(kotlin("stdlib"))
-  implementation(kotlin("reflect"))
-  implementation(kotlin("test-junit"))
-  //implementation("org.jetbrains.kotlin:kotlin-test-junit5:${Globals.kotlinVersion}") { ... }
-  implementation(kotlin("test-junit5") as String) {
-    exclude(group = "org.junit.vintage", module = "*")
-  }
-
   testImplementation(platform("org.junit:junit-bom:${Globals.junitJupiterVersion}"))
   testImplementation("org.junit.vintage:junit-vintage-engine")
   testImplementation("org.junit.jupiter:junit-jupiter")
+  testImplementation("junit:junit")
 
   testImplementation("org.assertj:assertj-core:${Globals.assertjVersion}")
 }
@@ -71,13 +49,6 @@ tasks {
   withType(Wrapper::class.java) {
     gradleVersion = Globals.Gradle.wrapperVersion
     distributionType = Wrapper.DistributionType.BIN
-  }
-
-  withType<KotlinCompile>().configureEach {
-    kotlinOptions {
-      freeCompilerArgs += "-Xjsr305=strict"
-      jvmTarget = "${Globals.javaVersion}"
-    }
   }
 
   withType<Test> {

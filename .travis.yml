@@ -41,16 +41,16 @@ before_install:
   ## gradle
   #- curl -s "https://get.sdkman.io" | bash
   #- source "$HOME/.sdkman/bin/sdkman-init.sh"
-  #- sed -i -e 's/^sdkman_auto_answer=false$/sdkman_auto_answer=true/g' "$HOME/.sdkman/etc/config"
+  #- sed -i -e s/^sdkman_auto_answer=false$/sdkman_auto_answer=true/g "$HOME/.sdkman/etc/config"
   #- sdk use gradle 5.5-rc-2
   #- source "$HOME/.sdkman/bin/sdkman-init.sh"
   ##
-  - which pip  || echo 'which pip  command failed.'
-  - which pip3 || echo 'which pip3 command failed.'
+  - which pip  || echo which pip command failed.
+  - which pip3 || echo which pip3 command failed.
   - export PATH=$HOME/.local/bin:$PATH
   - pip3 install --user $(whoami) --upgrade pip
-  - which pip  || echo 'which pip  command failed.'
-  - which pip3 || echo 'which pip3 command failed.'
+  - which pip  || echo which pip command failed.
+  - which pip3 || echo which pip3 command failed.
   - pip install --user $(whoami) --upgrade httpie
   - http --version --debug
   - docker-compose -v
@@ -62,34 +62,18 @@ jobs:
   include:
     # openjdk8
     - stage: openjdk8
-      name: "Maven build"
-      jdk: openjdk8
-      script: cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-maven.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml ; cd $TRAVIS_BUILD_DIR && ./mvnw
-    - stage: openjdk8
-      name: "Maven updates"
-      jdk: openjdk8
-      script: cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates
-    - stage: openjdk8
       name: "Gradle build"
       jdk: openjdk8
-      script: cd $TRAVIS_BUILD_DIR && ./gradlew
+      script: cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-gradle.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml ; cd $TRAVIS_BUILD_DIR && ./gradlew
     - stage: openjdk8
       name: "Gradle updates"
       jdk: openjdk8
       script: cd $TRAVIS_BUILD_DIR && ./gradlew dependencyUpdates -Drevision=release
     # openjdk11
     - stage: openjdk11
-      name: "Maven build"
-      jdk: openjdk11
-      script: cd $TRAVIS_BUILD_DIR && ./mvnw
-    - stage: openjdk11
-      name: "Maven updates"
-      jdk: openjdk11
-      script: cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-maven.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml ; cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates
-    - stage: openjdk11
       name: "Gradle build"
       jdk: openjdk11
-      script: cd $TRAVIS_BUILD_DIR && ./gradlew
+      script: cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-gradle.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml ; cd $TRAVIS_BUILD_DIR && ./gradlew
     - stage: openjdk11
       name: "Gradle updates"
       jdk: openjdk11
@@ -97,6 +81,6 @@ jobs:
 cache:
   directories:
     - ~/.gradle
-    - ~/.m2
   packages: true
   pip: true
+
