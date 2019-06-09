@@ -28,8 +28,10 @@ java {
 }
 
 repositories {
-  jcenter()
+  // jcenter()
   mavenCentral()
+  // maven(url = "https://repo.spring.io/milestone")
+  // maven(url = "https://repo.spring.io/snapshot")
 }
 
 lombok {
@@ -52,9 +54,6 @@ dependencies {
   //implementation("org.jetbrains.kotlin:kotlin-test-junit5:${Globals.kotlinVersion}") { ... }
   implementation(kotlin("test-junit5") as String) {
     exclude(group = "org.junit.vintage", module = "*")
-  }
-  testImplementation("com.willowtreeapps.assertk:assertk-jvm:${Globals.assertkVersion}") {
-    exclude(group = "org.jetbrains.kotlin", module = "*")
   }
 
   testImplementation(platform("org.junit:junit-bom:${Globals.junitJupiterVersion}"))

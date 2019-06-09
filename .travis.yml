@@ -1,3 +1,4 @@
+dist: trusty
 notifications:
   email: false
 git:
@@ -8,6 +9,7 @@ env:
     - TERM=dumb
 language: java
 jdk: openjdk8
+python: 3
 branches:
   only:
     - all
@@ -15,40 +17,84 @@ branches:
     - scala
     - spring
     - spring-boot
+    - spring-boot-all
     - spring-scala
+addons:
+  apt:
+    update: true
+    sources:
+      - google-chrome
+    packages:
+      - jq
+      - bash
+      - sudo
+      - lsof
+      - wget
+      - curl
+      - unzip
+      - docker-ce
+      - python3-pip
 install: true
+before_install:
+  ## gradle
+  #- curl -s "https://get.sdkman.io" | bash
+  #- source "$HOME/.sdkman/bin/sdkman-init.sh"
+  #- sed -i -e 's/^sdkman_auto_answer=false$/sdkman_auto_answer=true/g' "$HOME/.sdkman/etc/config"
+  #- sdk use gradle 5.5-rc-2
+  #- source "$HOME/.sdkman/bin/sdkman-init.sh"
+  ##
+  - which pip  || echo 'which pip  command failed.'
+  - which pip3 || echo 'which pip3 command failed.'
+  - export PATH=$HOME/.local/bin:$PATH
+  - pip3 install --user $(whoami) --upgrade pip
+  - which pip  || echo 'which pip  command failed.'
+  - which pip3 || echo 'which pip3 command failed.'
+  - pip install --user $(whoami) --upgrade httpie
+  - http --version --debug
+  - docker-compose -v
+  #- pip install --user $(whoami) --upgrade docker-compose httpie >/dev/null 2>&1
+  #- docker-compose -v
+  - source <(curl -fsSL https://raw.github.com/daggerok/bash-functions/master/main.bash)
+  - stop_any 80 8080 5672 5432 27017 >/dev/null
 jobs:
   include:
-    # maven
-    - stage: maven
-      name: "Maven Java 8 Build"
+    # openjdk8
+    - stage: openjdk8
+      name: "Maven build"
       jdk: openjdk8
-      script:
-        - cd $TRAVIS_BUILD_DIR
-        - mvn -N io.takari:maven:wrapper -Dmaven=3.6.1
-        - ./mvnw
-    - stage: maven
-      name: "Maven Java 11 Build"
+      script: cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-maven.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml ; cd $TRAVIS_BUILD_DIR && ./mvnw
+    - stage: openjdk8
+      name: "Maven updates"
+      jdk: openjdk8
+      script: cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates
+    - stage: openjdk8
+      name: "Gradle build"
+      jdk: openjdk8
+      script: cd $TRAVIS_BUILD_DIR && ./gradlew
+    - stage: openjdk8
+      name: "Gradle updates"
+      jdk: openjdk8
+      script: cd $TRAVIS_BUILD_DIR && ./gradlew dependencyUpdates -Drevision=release
+    # openjdk11
+    - stage: openjdk11
+      name: "Maven build"
       jdk: openjdk11
       script: cd $TRAVIS_BUILD_DIR && ./mvnw
-    - stage: maven
-      name: "Maven Java 11 Updates"
+    - stage: openjdk11
+      name: "Maven updates"
       jdk: openjdk11
-      script: cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates
-    # gradle
-    - stage: gradle
-      name: "Gradle Java 8 Build"
-      jdk: openjdk8
-      script: cd $TRAVIS_BUILD_DIR && ./gradlew
-    - stage: gradle
-      name: "Gradle Java 11 Build"
+      script: cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-maven.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml ; cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates
+    - stage: openjdk11
+      name: "Gradle build"
       jdk: openjdk11
       script: cd $TRAVIS_BUILD_DIR && ./gradlew
-    - stage: gradle
-      name: "Gradle Java 11 Updates"
+    - stage: openjdk11
+      name: "Gradle updates"
       jdk: openjdk11
       script: cd $TRAVIS_BUILD_DIR && ./gradlew dependencyUpdates -Drevision=release
 cache:
   directories:
     - ~/.gradle
     - ~/.m2
+  packages: true
+  pip: true
