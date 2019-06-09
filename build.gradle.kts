@@ -3,17 +3,35 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 
 plugins {
   java
-  kotlin("jvm") version "1.3.31"
-  kotlin("plugin.spring") version "1.3.31"
-  id("io.franzbecker.gradle-lombok") version "3.0.0"
-  id("org.springframework.boot") version "2.2.0.BUILD-SNAPSHOT"
-  id("io.spring.dependency-management") version "1.0.7.RELEASE"
+  kotlin("jvm") version Globals.kotlinVersion
+  kotlin("plugin.spring") version Globals.kotlinVersion
+  id("org.springframework.boot") version Globals.Gradle.Plugin.springBootVersion
+  id("io.franzbecker.gradle-lombok") version Globals.Gradle.Plugin.lombokVersion
+  id("io.spring.dependency-management") version Globals.Gradle.Plugin.dependencyManagementVersion
+  id("com.github.ben-manes.versions") version Globals.Gradle.Plugin.versionsVersion
+  // gradle dependencyUpdates -Drevision=release
 }
 
-tasks.withType(Wrapper::class.java) {
-  val gradleWrapperVersion: String by project
-  gradleVersion = gradleWrapperVersion
-  distributionType = Wrapper.DistributionType.BIN
+group = Globals.Project.groupId
+version = Globals.Project.version
+
+extra["junit.version"] = Globals.junitVersion
+extra["lombok.version"] = Globals.lombokVersion
+extra["junit-jupiter.version"] = Globals.junitJupiterVersion
+
+java {
+  sourceCompatibility = Globals.javaVersion
+  targetCompatibility = Globals.javaVersion
+}
+
+repositories {
+  mavenCentral()
+  maven { url = uri("https://repo.spring.io/milestone/") }
+  // maven { url = uri("https://repo.spring.io/snapshot/") }
+}
+
+lombok {
+  version = Globals.lombokVersion
 }
 
 sourceSets {
@@ -25,35 +43,6 @@ sourceSets {
   }
 }
 
-val javaVersion = JavaVersion.VERSION_1_8
-
-tasks.withType<KotlinCompile>().configureEach {
-  kotlinOptions {
-    freeCompilerArgs += "-Xjsr305=strict"
-    jvmTarget = "$javaVersion"
-  }
-}
-
-java {
-  sourceCompatibility = javaVersion
-  targetCompatibility = javaVersion
-}
-
-repositories {
-  mavenCentral()
-  maven { url = uri("https://repo.spring.io/milestone/") }
-  maven { url = uri("https://repo.spring.io/snapshot/") }
-}
-
-lombok {
-  val lombokVersion: String by project
-  version = lombokVersion
-}
-
-val vavrVersion: String by project
-val assertkVersion: String by project
-val junitJupiterVersion: String by project
-
 dependencies {
   implementation(kotlin("stdlib"))
   implementation(kotlin("reflect"))
@@ -61,46 +50,58 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-  implementation("io.vavr:vavr:$vavrVersion")
+  implementation("io.vavr:vavr:${Globals.vavrVersion}")
   annotationProcessor("org.projectlombok:lombok")
 
-  testImplementation("com.willowtreeapps.assertk:assertk-jvm:$assertkVersion")
-  testImplementation(platform("org.junit:junit-bom:$junitJupiterVersion"))
-  testRuntime("org.junit.platform:junit-platform-launcher")
-  testImplementation("org.junit.jupiter:junit-jupiter-api")
-  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+  testImplementation(platform("org.junit:junit-bom:${Globals.junitJupiterVersion}"))
   testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
+  testImplementation("org.junit.jupiter:junit-jupiter")
   testImplementation("junit:junit")
 }
 
-tasks.withType<Test> {
-  useJUnitPlatform()
-  testLogging {
-    showExceptions = true
-    showStandardStreams = true
-    events(PASSED, SKIPPED, FAILED)
-  }
-}
-
-tasks.create<Zip>("sources") {
-  dependsOn("clean")
-  shouldRunAfter("clean", "assemble")
-  description = "Archives sources in a zip file"
-  group = "Archive"
-  from("src") {
-    into("src")
-  }
-  from(".gitignore")
-  from(".java-version")
-  from(".travis.yml")
-  from("build.gradle.kts")
-  from("pom.xml")
-  from("README.md")
-  from("settings.gradle.kts")
-  archiveFileName.set("${project.buildDir}/sources-${project.version}.zip")
-}
-
 tasks {
+  withType(Wrapper::class.java) {
+    gradleVersion = Globals.Gradle.wrapperVersion
+    distributionType = Wrapper.DistributionType.BIN
+  }
+
+  withType<KotlinCompile>().configureEach {
+    kotlinOptions {
+      freeCompilerArgs += "-Xjsr305=strict"
+      jvmTarget = "${Globals.javaVersion}"
+    }
+  }
+
+  withType<Test> {
+    useJUnitPlatform()
+    testLogging {
+      showExceptions = true
+      showStandardStreams = true
+      events(PASSED, SKIPPED, FAILED)
+    }
+  }
+
+  create<Zip>("sources") {
+    dependsOn("clean")
+    shouldRunAfter("clean", "assemble")
+    description = "Archives sources in a zip file"
+    group = "Archive"
+    from("buildSrc") {
+      into("buildSrc")
+    }
+    from("src") {
+      into("src")
+    }
+    from(".gitignore")
+    from(".java-version")
+    from(".travis.yml")
+    from("build.gradle.kts")
+    from("pom.xml")
+    from("README.md")
+    from("settings.gradle.kts")
+    archiveFileName.set("${project.buildDir}/sources-${project.version}.zip")
+  }
+
   named("clean") {
     doLast {
       delete(

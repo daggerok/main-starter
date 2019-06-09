@@ -1,10 +1,10 @@
-# main-starter
-JVM (java / kotlin) starter using Gradle / Maven build tools.
+# main-starter [![Build Status](https://travis-ci.org/daggerok/main-starter.svg?branch=spring-boot-all)](https://travis-ci.org/daggerok/main-starter)
+Spring Boot Java starter using Gradle / Maven build tools.
 
 ## getting started
 
 ```bash
-git clone -b spring-boot-all --depth=1 https://github.com/daggerok/main-starter.git
+git clone --no-single-branch --depth=1 https://github.com/daggerok/main-starter.git -b spring-boot-all
 cd main-starter
 rm -rf .git
 ```
@@ -27,7 +27,6 @@ find archive with all project sources in target folder too:
 unzip -d target/sources target/*-sources.zip
 unzip -d target/default target/*-src.zip
 ```
-JVM (java / kotlin) starter using Gradle / Maven build tools.
 
 ## gradle
 
@@ -48,3 +47,12 @@ unzip -d build/sources build/*.zip
 ```
 
 NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter)_
+
+<!--
+_update versions_
+
+```bash
+./mvnw versions:display-property-updates
+./gradlew dependencyUpdates -Drevision=release
+```
+-->
