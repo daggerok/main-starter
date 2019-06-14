@@ -21,6 +21,7 @@ branches:
     - spring-boot
     - spring-boot-all
     - spring-scala
+    - spring-fu-jafu
 addons:
   apt:
     update: true
