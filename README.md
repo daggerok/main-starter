@@ -69,3 +69,5 @@ unzip -d build/sources build/*.zip
 This project was cloned originally from [GitHub: daggerok/spring-fu-jafu-example](https://github.com/daggerok/spring-fu-jafu-example)
 
 NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter)_
+
+see also [samples](https://github.com/spring-projects/spring-fu/tree/master/samples)
