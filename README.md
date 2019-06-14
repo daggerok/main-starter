@@ -1,4 +1,4 @@
-# main-starter
+# main-starter [![Build Status](https://travis-ci.org/daggerok/main-starter.svg?branch=spring-fu-jafu)](https://travis-ci.org/daggerok/main-starter)
 Spring Fu JaFu starter using Gradle / Maven build tools.
 
 ## getting started
