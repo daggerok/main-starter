@@ -6,13 +6,12 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.daggerok</groupId>
   <artifactId>main-starter</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.1-SNAPSHOT</version>
 
   <properties>
+    <vavr.version>0.10.0</vavr.version>
+    <lombok.version>1.18.8</lombok.version>
     <quarkus.version>0.14.0</quarkus.version>
-    <lombok.version>1.18.6</lombok.version>
-    <slf4j-api.version>1.7.26</slf4j-api.version>
-    <logback-classic.version>1.2.3</logback-classic.version>
 
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -21,6 +20,13 @@
     <encoding>UTF-8</encoding>
     <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
     <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
+
+    <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
+    <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+    <maven-assembly-plugin.version>3.1.1</maven-assembly-plugin.version>
+    <maven-failsafe-plugin.version>2.22.1</maven-failsafe-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
+    <docker-compose-maven-plugin.version>2.4.0</docker-compose-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
@@ -37,24 +43,17 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${slf4j-api.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>${lombok.version}</version>
       <optional>true</optional>
       <scope>provided</scope>
     </dependency>
-    <!--
     <dependency>
       <groupId>io.vavr</groupId>
       <artifactId>vavr</artifactId>
-      <version>0.10.0</version>
+      <version>${vavr.version}</version>
     </dependency>
-    -->
 
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -99,8 +98,14 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>${maven-clean-plugin.version}</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.0</version>
+        <version>${maven-compiler-plugin.version}</version>
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
@@ -147,7 +152,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M3</version>
+        <version>${maven-surefire-plugin.version}</version>
         <configuration>
           <systemProperties>
             <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
@@ -158,7 +163,7 @@
       <plugin><!-- zip -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.1.1</version>
+        <version>${maven-assembly-plugin.version}</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -173,34 +178,6 @@
               <ignoreMissingDescriptor>true</ignoreMissingDescriptor>
               <descriptorRefs>src</descriptorRefs><!-- built-in descriptors: bin, jar-with-dependencies, src, project -->
             </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.0.1</version>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>3.0.1</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
           </execution>
         </executions>
       </plugin>
@@ -243,12 +220,12 @@
           <plugin>
             <groupId>com.dkanejs.maven.plugins</groupId>
             <artifactId>docker-compose-maven-plugin</artifactId>
-            <version>2.4.0</version>
-            <executions>
+            <version>${docker-compose-maven-plugin.version}</version>
+            <!--<executions>
               <execution>
                 <id>up</id>
                 <phase>pre-integration-test</phase>
-                <!--<phase>test</phase>-->
+                &lt;!&ndash;<phase>test</phase>&ndash;&gt;
                 <goals>
                   <goal>up</goal>
                 </goals>
@@ -256,12 +233,12 @@
               <execution>
                 <id>down</id>
                 <phase>post-integration-test</phase>
-                <!--<phase>verify</phase>-->
+                &lt;!&ndash;<phase>verify</phase>&ndash;&gt;
                 <goals>
                   <goal>down</goal>
                 </goals>
               </execution>
-            </executions>
+            </executions>-->
             <configuration>
               <composeFiles>
                 <composeFile>${project.basedir}/src/main/docker/docker-compose.yaml</composeFile>
@@ -313,7 +290,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
-            <version>2.22.1</version>
+            <version>${maven-failsafe-plugin.version}</version>
             <executions>
               <execution>
                 <goals>

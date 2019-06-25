@@ -1,12 +1,7 @@
-package com.github.daggerok;
+package com.github.daggerok.hello;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-
-import java.util.concurrent.CompletableFuture;
+import javax.ws.rs.*;
 import java.util.concurrent.CompletionStage;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -21,13 +16,12 @@ public class RestResource {
   @GET
   @Path("")
   public CompletionStage<String> index() {
-    return CompletableFuture.supplyAsync(() -> "hello");
+    return greetingService.greeting();
   }
 
   @GET
   @Path("{name}")
   public CompletionStage<String> hello(@PathParam("name") String name) {
-    return null == name || name.isEmpty() ? index()
-        : CompletableFuture.supplyAsync(() -> greetingService.greeting(name));
+    return greetingService.greeting(name);
   }
 }

@@ -6,4 +6,4 @@ import javax.ws.rs.core.Application;
 
 @ApplicationScoped
 @ApplicationPath("api") // only for path
-public class Config extends Application {}
+public class ApplicationConfig extends Application {}

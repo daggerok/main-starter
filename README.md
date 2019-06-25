@@ -1,4 +1,4 @@
-# main-starter
+# main-starter [![Build Status](https://travis-ci.org/daggerok/main-starter.svg?branch=quarkus)](https://travis-ci.org/daggerok/main-starter)
 Quarkus micro-profile starter using Gradle / Maven build tools.
 
 _getting started_
@@ -54,15 +54,19 @@ _docker jvm_
 ```bash
 ./mvnw clean compile jar:jar quarkus:build
 docker build -f src/main/docker/Dockerfile.jvm -t quarkus/quarkus-example-jvm .
-docker run -i --rm -p 8080:8080 quarkus/quarkus-example-jvm
+docker run -i --rm --name app -p 8080:8080 quarkus/quarkus-example-jvm &
+#...
+docker rm -f -v app
 ```
 
 _docker native_
 
 ```bash
 ./mvnw package -Pnative -Dnative-image.docker-build=true
-docker build -f src/main/docker/Dockerfile.native -t quarkus/quarkus-example .
-docker run -i --rm -p 8080:8080 quarkus/quarkus-example
+docker build -f src/main/docker/Dockerfile.native -t quarkus/quarkus-example-native .
+docker run -i --rm --name app -p 8080:8080 quarkus/quarkus-example-native
+# ...
+docker rm -f -v app
 ```
 
 _project sources archive_
@@ -86,7 +90,7 @@ mvn io.quarkus:quarkus-maven-plugin:0.14.0:create \
   -DprojectGroupId=com.github.daggerok \
   -DprojectArtifactId=rest-api \
   -DprojectVersion=1.0-SNAPSHOT \
-  -DclassName="com.github.daggerok.RestResource"
+  -DclassName="com.github.daggerok.hello.RestResourcesource"
 ```
 
 NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter)_
