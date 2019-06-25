@@ -13,15 +13,16 @@ python: 3
 branches:
   only:
     - all
-    - master
     - scala
+    - master
     - spring
     - gradle
-    - gradle-kotlin
+    - quarkus
     - spring-boot
-    - spring-boot-all
     - spring-scala
+    - gradle-kotlin
     - spring-fu-jafu
+    - spring-boot-all
 addons:
   apt:
     update: true
