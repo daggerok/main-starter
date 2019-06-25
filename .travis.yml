@@ -44,7 +44,7 @@ before_install:
   #- curl -s "https://get.sdkman.io" | bash
   #- source "$HOME/.sdkman/bin/sdkman-init.sh"
   #- sed -i -e 's/^sdkman_auto_answer=false$/sdkman_auto_answer=true/g' "$HOME/.sdkman/etc/config"
-  #- sdk use gradle 5.5-rc-2
+  #- sdk use gradle 5.5-rc-4
   #- source "$HOME/.sdkman/bin/sdkman-init.sh"
   ##
   - which pip  || echo 'which pip  command failed.'
@@ -68,11 +68,11 @@ jobs:
       name: Maven build (openjdk8)
       script:
         - cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-maven.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml
-        - cd $TRAVIS_BUILD_DIR && ./mvnw
+        - cd $TRAVIS_BUILD_DIR && ./mvnw -U
     - stage: test
       jdk: openjdk8
       name: Maven updates (openjdk8)
-      script: cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates
+      script: cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates -U
     - stage: test
       jdk: openjdk8
       name: Gradle build (openjdk8)
@@ -89,11 +89,11 @@ jobs:
       name: Maven build (openjdk11)
       script:
         - cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-maven.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml
-        - cd $TRAVIS_BUILD_DIR && ./mvnw
+        - cd $TRAVIS_BUILD_DIR && ./mvnw -U
     - stage: test
       jdk: openjdk11
       name: Maven updates (openjdk11)
-      script: cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates
+      script: cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates -U
     - stage: test
       jdk: openjdk11
       name: Gradle build (openjdk11)
