@@ -63,38 +63,46 @@ before_install:
 jobs:
   include:
     # openjdk8
-    - stage: openjdk8
-      name: "Maven build"
+    - stage: test
       jdk: openjdk8
-      script: cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-maven.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml ; cd $TRAVIS_BUILD_DIR && ./mvnw
-    - stage: openjdk8
-      name: "Maven updates"
+      name: Maven build
+      script:
+        - cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-maven.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml
+        - cd $TRAVIS_BUILD_DIR && ./mvnw
+    - stage: test
       jdk: openjdk8
+      name: Maven updates
       script: cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates
-    - stage: openjdk8
-      name: "Gradle build"
+    - stage: test
       jdk: openjdk8
-      script: cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-gradle.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml ; cd $TRAVIS_BUILD_DIR && ./gradlew
-    - stage: openjdk8
-      name: "Gradle updates"
+      name: Gradle build
+      script:
+        - cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-gradle.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml
+        - cd $TRAVIS_BUILD_DIR && ./gradlew
+    - stage: test
       jdk: openjdk8
+      name: Gradle updates
       script: cd $TRAVIS_BUILD_DIR && ./gradlew dependencyUpdates -Drevision=release
     # openjdk11
-    - stage: openjdk11
-      name: "Maven build"
+    - stage: test
       jdk: openjdk11
-      script: cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-maven.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml ; cd $TRAVIS_BUILD_DIR && ./mvnw
-    - stage: openjdk11
-      name: "Maven updates"
+      name: Maven build
+      script:
+        - cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-maven.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml
+        - cd $TRAVIS_BUILD_DIR && ./mvnw
+    - stage: test
       jdk: openjdk11
+      name: Maven updates
       script: cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates
-    - stage: openjdk11
-      name: "Gradle build"
+    - stage: test
       jdk: openjdk11
-      script: cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-gradle.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml ; cd $TRAVIS_BUILD_DIR && ./gradlew
-    - stage: openjdk11
-      name: "Gradle updates"
+      name: Gradle build
+      script:
+        - cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-gradle.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml
+        - cd $TRAVIS_BUILD_DIR && ./gradlew
+    - stage: test
       jdk: openjdk11
+      name: Gradle updates
       script: cd $TRAVIS_BUILD_DIR && ./gradlew dependencyUpdates -Drevision=release
 cache:
   directories:
