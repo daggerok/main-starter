@@ -10,19 +10,6 @@ env:
 language: java
 jdk: openjdk8
 python: 3
-branches:
-  only:
-    - all
-    - scala
-    - master
-    - spring
-    - gradle
-    - quarkus
-    - spring-boot
-    - spring-scala
-    - gradle-kotlin
-    - spring-fu-jafu
-    - spring-boot-all
 addons:
   apt:
     update: true
@@ -40,13 +27,13 @@ addons:
       - python3-pip
 install: true
 before_install:
-  ## gradle
-  #- curl -s "https://get.sdkman.io" | bash
-  #- source "$HOME/.sdkman/bin/sdkman-init.sh"
-  #- sed -i -e 's/^sdkman_auto_answer=false$/sdkman_auto_answer=true/g' "$HOME/.sdkman/etc/config"
-  #- sdk use gradle 5.5-rc-4
-  #- source "$HOME/.sdkman/bin/sdkman-init.sh"
-  ##
+  # leiningen
+  - curl -s "https://get.sdkman.io" | bash
+  - source "$HOME/.sdkman/bin/sdkman-init.sh"
+  - sed -i -e 's/^sdkman_auto_answer=false$/sdkman_auto_answer=true/g' "$HOME/.sdkman/etc/config"
+  - sdk use leiningen 2.9.1
+  - source "$HOME/.sdkman/bin/sdkman-init.sh"
+  #
   - which pip  || echo 'which pip  command failed.'
   - which pip3 || echo 'which pip3 command failed.'
   - export PATH=$HOME/.local/bin:$PATH
@@ -67,43 +54,9 @@ jobs:
       jdk: openjdk8
       name: Maven build (openjdk8)
       script:
-        - cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-maven.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml
-        - cd $TRAVIS_BUILD_DIR && ./mvnw -U
-    - stage: test
-      jdk: openjdk8
-      name: Maven updates (openjdk8)
-      script: cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates -U
-    - stage: test
-      jdk: openjdk8
-      name: Gradle build (openjdk8)
-      script:
-        - cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-gradle.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml
-        - cd $TRAVIS_BUILD_DIR && ./gradlew
-    - stage: test
-      jdk: openjdk8
-      name: Gradle updates (openjdk8)
-      script: cd $TRAVIS_BUILD_DIR && ./gradlew dependencyUpdates -Drevision=release
-    # openjdk11
-    - stage: test
-      jdk: openjdk11
-      name: Maven build (openjdk11)
-      script:
-        - cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-maven.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml
-        - cd $TRAVIS_BUILD_DIR && ./mvnw -U
-    - stage: test
-      jdk: openjdk11
-      name: Maven updates (openjdk11)
-      script: cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates -U
-    - stage: test
-      jdk: openjdk11
-      name: Gradle build (openjdk11)
-      script:
-        - cp -Rf $TRAVIS_BUILD_DIR/src/main/resources/logback-gradle.xml $TRAVIS_BUILD_DIR/src/main/resources/logback.xml
-        - cd $TRAVIS_BUILD_DIR && ./gradlew
-    - stage: test
-      jdk: openjdk11
-      name: Gradle updates (openjdk11)
-      script: cd $TRAVIS_BUILD_DIR && ./gradlew dependencyUpdates -Drevision=release
+        - cd $TRAVIS_BUILD_DIR && lein test
+        - cd $TRAVIS_BUILD_DIR && lein uberjar
+        - java -jar $TRAVIS_BUILD_DIR/target/uberjar/*-standalone.jar
 cache:
   directories:
     - ~/.gradle

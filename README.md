@@ -1,59 +1,59 @@
 # main-starter [![Build Status](https://travis-ci.org/daggerok/main-starter.svg?branch=master)](https://travis-ci.org/daggerok/main-starter)
-JVM (java / kotlin) starter using Gradle / Maven build tools.
+Clojure starter using lein build tool.
 
 ## getting started
 
 ```bash
-git clone --no-single-branch --depth=1 https://github.com/daggerok/main-starter.git
+brew reinstall leiningen
+git clone --no-single-branch --depth=1 https://github.com/daggerok/main-starter.git -b clojure
 cd main-starter
-
-git co gradle-kotlin
-git co maven-kotlin
-git co gradle
-git co maven
-git co all
-# ...
-git co scala
-git co spring
-git co spring-scala
 
 rm -rf .git
 # ...
 ```
 
-## other available branches
+## Installation
 
-```bash
-git clone -b $branch --depth=1 https://github.com/daggerok/main-starter.git
-cd main-starter
-rm -rf .git
-```
+Download from http://example.com/FIXME.
 
-* [akka](https://github.com/daggerok/main-starter/tree/akka/)
-* [akka-http](https://github.com/daggerok/main-starter/tree/akka-http/)
-* [akka-scala](https://github.com/daggerok/main-starter/tree/akka-scala/)
-* [scala](https://github.com/daggerok/main-starter/tree/scala/)
-* [spring](https://github.com/daggerok/main-starter/tree/spring/)
-* [spring-all](https://github.com/daggerok/main-starter/tree/spring-all/)
-* [spring-boot-all](https://github.com/daggerok/main-starter/tree/spring-boot-all/)
-* [spring-boot](https://github.com/daggerok/main-starter/tree/spring-boot/)
-* [spring-scala](https://github.com/daggerok/main-starter/tree/spring-fu-jafu/)
-* [spring-fu-jafu](https://github.com/daggerok/main-starter/tree/spring-scala/)
-* [cdi-all](https://github.com/daggerok/main-starter/tree/cdi-all/)
-* [cdi](https://github.com/daggerok/main-starter/tree/cdi/)
-* [all](https://github.com/daggerok/main-starter/tree/all/)
-* [gradle-kotlin](https://github.com/daggerok/main-starter/tree/gradle-kotlin/)
-* [gradle](https://github.com/daggerok/main-starter/tree/gradle/)
-* [maven-kotlin](https://github.com/daggerok/main-starter/tree/maven-kotlin/)
-* [maven](https://github.com/daggerok/main-starter/tree/maven/)
-* [mp-smallrye-gradle](https://github.com/daggerok/main-starter/tree/mp-smallrye-gradle/)
-* [mp-smallrye-maven](https://github.com/daggerok/main-starter/tree/mp-smallrye-maven/)
-* [quarkus](https://github.com/daggerok/main-starter/tree/quarkus/)
+## Usage
 
-TODO / FIXME:
-* fix and merge together mp-smallrye [maven](https://github.com/daggerok/main-starter/tree/mp-smallrye-maven/) and [gradle](https://github.com/daggerok/main-starter/tree/mp-smallrye-gradle/) branches
+FIXME: explanation
 
-NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter)_
+    $ java -jar main-starter-0.1.0-standalone.jar [args]
+
+## Options
+
+FIXME: listing of options this app accepts.
+
+## Examples
+
+...
+
+### Bugs
+
+...
+
+### Any Other Sections
+### That You Think
+### Might be Useful
+
+## License
+
+Copyright © 2019 FIXME
+
+This program and the accompanying materials are made available under the
+terms of the Eclipse Public License 2.0 which is available at
+http://www.eclipse.org/legal/epl-2.0.
+
+This Source Code may also be made available under the following Secondary
+Licenses when the conditions for such availability set forth in the Eclipse
+Public License, v. 2.0 are satisfied: GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or (at your
+option) any later version, with the GNU Classpath Exception which is available
+at https://www.gnu.org/software/classpath/license.html.
+
+NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter) branch: [clojure](https://github.com/daggerok/main-starter/tree/clojure/)_
 
 <!--
 _update versions_
