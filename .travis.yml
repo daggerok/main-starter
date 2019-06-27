@@ -49,10 +49,16 @@ before_install:
   - stop_any 80 8080 5672 5432 27017 >/dev/null
 jobs:
   include:
-    # openjdk8
     - stage: test
       jdk: openjdk8
-      name: Maven build (openjdk8)
+      name: maven build
+      script:
+        - cd $TRAVIS_BUILD_DIR && lein test
+        - cd $TRAVIS_BUILD_DIR && lein uberjar
+        - java -jar $TRAVIS_BUILD_DIR/target/uberjar/*-standalone.jar
+    - stage: test
+      jdk: openjdk11
+      name: maven build (openjdk11)
       script:
         - cd $TRAVIS_BUILD_DIR && lein test
         - cd $TRAVIS_BUILD_DIR && lein uberjar
