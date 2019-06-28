@@ -1,4 +1,4 @@
-# main-starter [![Build Status](https://travis-ci.org/daggerok/main-starter.svg?branch=master)](https://travis-ci.org/daggerok/main-starter)
+# main-starter [![Build Status](https://travis-ci.org/daggerok/main-starter.svg?branch=clojure)](https://travis-ci.org/daggerok/main-starter)
 Clojure starter using lein build tool.
 
 ## getting started
@@ -7,59 +7,19 @@ Clojure starter using lein build tool.
 brew reinstall leiningen
 git clone --no-single-branch --depth=1 https://github.com/daggerok/main-starter.git -b clojure
 cd main-starter
-
 rm -rf .git
 # ...
 ```
 
-## Installation
-
-Download from http://example.com/FIXME.
-
 ## Usage
 
-FIXME: explanation
+_testing_
 
-    $ java -jar main-starter-0.1.0-standalone.jar [args]
+    $ lein test
 
-## Options
+_fat jar_
 
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
-
-## License
-
-Copyright © 2019 FIXME
-
-This program and the accompanying materials are made available under the
-terms of the Eclipse Public License 2.0 which is available at
-http://www.eclipse.org/legal/epl-2.0.
-
-This Source Code may also be made available under the following Secondary
-Licenses when the conditions for such availability set forth in the Eclipse
-Public License, v. 2.0 are satisfied: GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or (at your
-option) any later version, with the GNU Classpath Exception which is available
-at https://www.gnu.org/software/classpath/license.html.
+    $ lein uberjar
+    $ java -jar target/uberjar/*-standalone.jar
 
 NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter) branch: [clojure](https://github.com/daggerok/main-starter/tree/clojure/)_
-
-<!--
-_update versions_
-
-```bash
-./mvnw versions:display-property-updates
-./gradlew dependencyUpdates -Drevision=release
-```
--->
