@@ -1,3 +1,3 @@
-# Introduction to main-starter
+# Introduction
 
-TODO: write [great documentation](http://jacobian.org/writing/what-to-write/)
+TODO: [how to](http://jacobian.org/writing/what-to-write/)
