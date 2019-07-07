@@ -1,5 +1,5 @@
 # main-starter [![Build Status](https://travis-ci.org/daggerok/main-starter.svg?branch=quarkus-scala)](https://travis-ci.org/daggerok/main-starter)
-Quarkus micro-profile starter using Scala built with Maven tool.
+Quarkus micro-profile starter using Scala 2.13.0 built with Maven tool.
 
 _getting started_
 
