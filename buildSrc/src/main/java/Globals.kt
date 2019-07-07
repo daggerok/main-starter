@@ -4,18 +4,18 @@ object Globals {
   object Project {
     const val artifactId = "main-starter"
     const val groupId = "com.github.daggerok"
-    const val version = "1.3-SNAPSHOT"
+    const val version = "1.4-SNAPSHOT"
   }
 
   val javaVersion = JavaVersion.VERSION_1_8
   const val vavrVersion = "0.10.0"
-  const val kotlinVersion = "1.3.40"
+  const val kotlinVersion = "1.3.41"
   const val lombokVersion = "1.18.8"
   const val junitVersion = "4.13-beta-3"
-  const val junitJupiterVersion = "5.5.0-RC2"
+  const val junitJupiterVersion = "5.5.0"
 
   object Gradle {
-    const val wrapperVersion = "5.5-rc-4"
+    const val wrapperVersion = "5.5"
 
     object Plugin {
       const val lombokVersion = "3.1.0"
