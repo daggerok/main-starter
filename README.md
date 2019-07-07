@@ -1,10 +1,10 @@
-# main-starter [![Build Status](https://travis-ci.org/daggerok/main-starter.svg?branch=quarkus)](https://travis-ci.org/daggerok/main-starter)
-Quarkus micro-profile starter using Gradle / Maven build tools.
+# main-starter [![Build Status](https://travis-ci.org/daggerok/main-starter.svg?branch=quarkus-scala)](https://travis-ci.org/daggerok/main-starter)
+Quarkus micro-profile starter using Scala built with Maven tool.
 
 _getting started_
 
 ```bash
-git clone -b quarkus --depth=1 https://github.com/daggerok/main-starter.git
+git clone -b quarkus-scala --depth=1 https://github.com/daggerok/main-starter.git
 cd main-starter
 rm -rf .git
 ```
@@ -93,4 +93,5 @@ mvn io.quarkus:quarkus-maven-plugin:0.14.0:create \
   -DclassName="com.github.daggerok.hello.RestResourcesource"
 ```
 
-NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter)_
+NOTE: _This project has been based on [GitHub: daggerok/main-starter](https://github.com/daggerok/main-starter)
+repo `quarkus-scala` branch_

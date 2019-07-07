@@ -6,12 +6,15 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.daggerok</groupId>
   <artifactId>main-starter</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.0-SNAPSHOT</version>
 
   <properties>
     <vavr.version>0.10.0</vavr.version>
     <lombok.version>1.18.8</lombok.version>
     <quarkus.version>0.17.0</quarkus.version>
+
+    <scala-baseline.version>2.13</scala-baseline.version>
+    <scala.version>${scala-baseline.version}.0</scala.version>
 
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -21,6 +24,7 @@
     <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
     <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
 
+    <scala-maven-plugin.version>3.3.2</scala-maven-plugin.version>
     <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
     <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
@@ -43,6 +47,12 @@
   </dependencyManagement>
 
   <dependencies>
+    <dependency>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-library</artifactId>
+      <version>${scala.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
@@ -101,6 +111,30 @@
     <defaultGoal>clean package</defaultGoal>
 
     <plugins>
+      <plugin>
+        <!-- see http://davidb.github.com/scala-maven-plugin -->
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>scala-maven-plugin</artifactId>
+        <version>${scala-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+              <goal>testCompile</goal>
+            </goals>
+            <configuration>
+              <sourceDir>src/main/java</sourceDir>
+              <testSourceDir>src/test/java</testSourceDir>
+              <recompileMode>all</recompileMode>
+              <args>
+                <arg>-dependencyfile</arg>
+                <arg>${project.build.directory}/.scala_dependencies</arg>
+              </args>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clean-plugin</artifactId>
