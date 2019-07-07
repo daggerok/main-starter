@@ -49,6 +49,7 @@ rm -rf .git
 * [mp-smallrye-gradle](https://github.com/daggerok/main-starter/tree/mp-smallrye-gradle/)
 * [mp-smallrye-maven](https://github.com/daggerok/main-starter/tree/mp-smallrye-maven/)
 * [quarkus](https://github.com/daggerok/main-starter/tree/quarkus/)
+* [quarkus-scala](https://github.com/daggerok/main-starter/tree/quarkus-scala/)
 
 TODO / FIXME:
 * fix and merge together mp-smallrye [maven](https://github.com/daggerok/main-starter/tree/mp-smallrye-maven/) and [gradle](https://github.com/daggerok/main-starter/tree/mp-smallrye-gradle/) branches
