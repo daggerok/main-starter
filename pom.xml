@@ -16,7 +16,7 @@
     <mainClass>com.github.daggerok.Main</mainClass>
 
     <junit.version>4.12</junit.version>
-    <junit-jupiter.version>5.4.2</junit-jupiter.version>
+    <junit-jupiter.version>5.5.0</junit-jupiter.version>
 
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
