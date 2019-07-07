@@ -27,7 +27,7 @@
     <!-- mvn versions:display-property-updates -->
     <vavr.version>0.10.0</vavr.version>
     <junit.version>4.13-beta-3</junit.version>
-    <junit-jupiter.version>5.5.0-RC2</junit-jupiter.version>
+    <junit-jupiter.version>5.5.0</junit-jupiter.version>
     <spring-boot.version>${project.parent.version}</spring-boot.version>
     <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
     <maven-assembly-plugin.version>3.1.1</maven-assembly-plugin.version>
