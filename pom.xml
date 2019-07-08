@@ -15,6 +15,9 @@
 
     <scala-baseline.version>2.13</scala-baseline.version>
     <scala.version>${scala-baseline.version}.0</scala.version>
+    <scala-maven-plugin.version>4.1.0</scala-maven-plugin.version>
+    <scala.compat.version>${scala-baseline.version}</scala.compat.version>
+    <recompileMode>incremental</recompileMode>
 
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -24,7 +27,6 @@
     <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
     <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
 
-    <scala-maven-plugin.version>4.1.0</scala-maven-plugin.version>
     <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
     <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
@@ -125,7 +127,7 @@
             <configuration>
               <sourceDir>src/main/java</sourceDir>
               <testSourceDir>src/test/java</testSourceDir>
-              <recompileMode>all</recompileMode>
+              <!--<recompileMode>all</recompileMode>-->
               <args>
                 <arg>-dependencyfile</arg>
                 <arg>${project.build.directory}/.scala_dependencies</arg>
