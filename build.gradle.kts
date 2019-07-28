@@ -1,5 +1,7 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.gradle.api.tasks.testing.logging.TestLogEvent.*
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
   java
@@ -7,9 +9,9 @@ plugins {
   kotlin("plugin.spring") version Globals.kotlinVersion
   id("org.springframework.boot") version Globals.Gradle.Plugin.springBootVersion
   id("io.franzbecker.gradle-lombok") version Globals.Gradle.Plugin.lombokVersion
-  id("io.spring.dependency-management") version Globals.Gradle.Plugin.dependencyManagementVersion
-  id("com.github.ben-manes.versions") version Globals.Gradle.Plugin.versionsVersion
   // gradle dependencyUpdates -Drevision=release
+  id("com.github.ben-manes.versions") version Globals.Gradle.Plugin.versionsVersion
+  id("io.spring.dependency-management") version Globals.Gradle.Plugin.dependencyManagementVersion
 }
 
 group = Globals.Project.groupId
@@ -26,8 +28,8 @@ java {
 
 repositories {
   mavenCentral()
+  maven { url = uri("https://repo.spring.io/snapshot/") }
   maven { url = uri("https://repo.spring.io/milestone/") }
-  // maven { url = uri("https://repo.spring.io/snapshot/") }
 }
 
 lombok {
@@ -54,9 +56,10 @@ dependencies {
   annotationProcessor("org.projectlombok:lombok")
 
   testImplementation(platform("org.junit:junit-bom:${Globals.junitJupiterVersion}"))
-  testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
   testImplementation("org.junit.jupiter:junit-jupiter")
   testImplementation("junit:junit")
+  testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
+  testRuntime("org.junit.platform:junit-platform-launcher")
 }
 
 tasks {
@@ -70,6 +73,10 @@ tasks {
       freeCompilerArgs += "-Xjsr305=strict"
       jvmTarget = "${Globals.javaVersion}"
     }
+  }
+
+  withType<BootJar>().configureEach {
+    launchScript()
   }
 
   withType<Test> {
@@ -108,6 +115,20 @@ tasks {
           project.buildDir,
           "${project.projectDir}/out"
       )
+    }
+  }
+
+  // gradle dependencyUpdates -Drevision=release --parallel
+  named<DependencyUpdatesTask>("dependencyUpdates") {
+    resolutionStrategy {
+      componentSelection {
+        all {
+          val rejected = listOf("alpha", "beta", "rc", "cr", "m", "preview", "b", "ea", "SNAPSHOT")
+              .map { qualifier -> Regex("(?i).*[.-]$qualifier[.\\d-+]*") }
+              .any { it.matches(candidate.version) }
+          if (rejected) reject("Release candidate")
+        }
+      }
     }
   }
 }
