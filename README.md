@@ -16,6 +16,7 @@ git co all
 git co scala
 git co spring
 git co spring-scala
+git co spring-boot-scala
 
 rm -rf .git
 # ...
@@ -36,6 +37,7 @@ rm -rf .git
 * [spring](https://github.com/daggerok/main-starter/tree/spring/)
 * [spring-all](https://github.com/daggerok/main-starter/tree/spring-all/)
 * [spring-boot-all](https://github.com/daggerok/main-starter/tree/spring-boot-all/)
+* [spring-boot-scala](https://github.com/daggerok/main-starter/tree/spring-boot-scala/)
 * [spring-boot](https://github.com/daggerok/main-starter/tree/spring-boot/)
 * [spring-scala](https://github.com/daggerok/main-starter/tree/spring-fu-jafu/)
 * [spring-fu-jafu](https://github.com/daggerok/main-starter/tree/spring-scala/)

@@ -19,11 +19,11 @@ branches:
     - gradle
     - quarkus
     - spring-boot
-    - spring-scala
     - quarkus-scala
     - gradle-kotlin
     - spring-fu-jafu
     - spring-boot-all
+    - spring-boot-scala
 addons:
   apt:
     update: true
