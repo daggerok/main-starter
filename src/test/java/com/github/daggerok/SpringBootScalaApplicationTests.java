@@ -9,13 +9,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 // Junit 4:
 import org.junit.Test;
 
-public class AppTest {
+public class SpringBootScalaApplicationTests {
 
   @Test
   public void main() {
-    GenericApplicationContext ctx = new AnnotationConfigApplicationContext(App.class);
+    GenericApplicationContext ctx = new AnnotationConfigApplicationContext(SpringBootScalaApplication.class);
     assertThat(ctx).isNotNull();
-    App.main(new String[0]);
+    SpringBootScalaApplication.main(new String[0]);
   }
 }
 */
@@ -25,12 +25,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Junit 5 Test")
-class AppTest {
+class SpringBootScalaApplicationTests {
 
   @Test
   void main() {
-    GenericApplicationContext ctx = new AnnotationConfigApplicationContext(App.class);
+    GenericApplicationContext ctx = new AnnotationConfigApplicationContext(SpringBootScalaApplication.class);
     assertThat(ctx).isNotNull();
-    App.main(new String[0]);
+    SpringBootScalaApplication.main(new String[0]);
   }
 }

@@ -1,62 +1,75 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.gradle.api.tasks.testing.logging.TestLogEvent.*
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
   java
-  kotlin("jvm") version Globals.kotlinVersion
-  kotlin("plugin.spring") version Globals.kotlinVersion
+  scala
   id("org.springframework.boot") version Globals.Gradle.Plugin.springBootVersion
   id("io.franzbecker.gradle-lombok") version Globals.Gradle.Plugin.lombokVersion
-  id("io.spring.dependency-management") version Globals.Gradle.Plugin.dependencyManagementVersion
-  id("com.github.ben-manes.versions") version Globals.Gradle.Plugin.versionsVersion
   // gradle dependencyUpdates -Drevision=release
+  id("com.github.ben-manes.versions") version Globals.Gradle.Plugin.versionsVersion
+  id("io.spring.dependency-management") version Globals.Gradle.Plugin.dependencyManagementVersion
 }
 
-group = Globals.Project.groupId
-version = Globals.Project.version
-
+extra["scala.version"] = Globals.scalaVersion
 extra["junit.version"] = Globals.junitVersion
 extra["lombok.version"] = Globals.lombokVersion
 extra["junit-jupiter.version"] = Globals.junitJupiterVersion
+
+group = Globals.Project.groupId
+version = Globals.Project.version
 
 java {
   sourceCompatibility = Globals.javaVersion
   targetCompatibility = Globals.javaVersion
 }
 
+sourceSets {
+  main {
+    java.srcDir("src/main/scala")
+  }
+  test {
+    java.srcDir("src/test/scala")
+  }
+}
+
 repositories {
   mavenCentral()
+  maven { url = uri("https://repo.spring.io/snapshot/") }
   maven { url = uri("https://repo.spring.io/milestone/") }
-  // maven { url = uri("https://repo.spring.io/snapshot/") }
 }
 
 lombok {
   version = Globals.lombokVersion
 }
 
-sourceSets {
-  main {
-    java.srcDir("src/main/kotlin")
-  }
-  test {
-    java.srcDir("src/test/kotlin")
-  }
-}
-
 dependencies {
-  implementation(kotlin("stdlib"))
-  implementation(kotlin("reflect"))
+  implementation(platform("org.springframework.boot:spring-boot-dependencies:${Globals.Gradle.Plugin.springBootVersion}"))
+  implementation(platform("org.reactivestreams:reactive-streams:${Globals.reactiveStreamsVersion}"))
+  implementation("com.typesafe.akka:akka-stream_${Globals.scalaMajorVersion}:${Globals.akkaStreamVersion}")
+  implementation("org.scala-lang:scala-library:${Globals.scalaVersion}")
 
   implementation("org.springframework.boot:spring-boot-starter")
-  testImplementation("org.springframework.boot:spring-boot-starter-test")
-
+  implementation("org.springframework.boot:spring-boot-starter-webflux")
+  implementation("org.springframework.boot:spring-boot-starter-actuator")
+  implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
+  implementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
   implementation("io.vavr:vavr:${Globals.vavrVersion}")
+
+  annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+  testAnnotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
   annotationProcessor("org.projectlombok:lombok")
 
+  testImplementation("org.springframework.boot:spring-boot-starter-test")
+  testImplementation("io.projectreactor:reactor-test")
+
   testImplementation(platform("org.junit:junit-bom:${Globals.junitJupiterVersion}"))
-  testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
   testImplementation("org.junit.jupiter:junit-jupiter")
   testImplementation("junit:junit")
+  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+  testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
+  testRuntime("org.junit.platform:junit-platform-launcher")
 }
 
 tasks {
@@ -65,11 +78,12 @@ tasks {
     distributionType = Wrapper.DistributionType.BIN
   }
 
-  withType<KotlinCompile>().configureEach {
-    kotlinOptions {
-      freeCompilerArgs += "-Xjsr305=strict"
-      jvmTarget = "${Globals.javaVersion}"
-    }
+  withType<ScalaCompile> {
+    scalaCompileOptions.additionalParameters = listOf("-deprecation")
+  }
+
+  withType<BootJar>().configureEach {
+    launchScript()
   }
 
   withType<Test> {
@@ -108,6 +122,20 @@ tasks {
           project.buildDir,
           "${project.projectDir}/out"
       )
+    }
+  }
+
+  // gradle dependencyUpdates -Drevision=release --parallel
+  named<DependencyUpdatesTask>("dependencyUpdates") {
+    resolutionStrategy {
+      componentSelection {
+        all {
+          val rejected = listOf("alpha", "beta", "rc", "cr", "m", "preview", "b", "ea", "SNAPSHOT")
+              .map { qualifier -> Regex("(?i).*[.-]$qualifier[.\\d-+]*") }
+              .any { it.matches(candidate.version) }
+          if (rejected) reject("Release candidate")
+        }
+      }
     }
   }
 }
