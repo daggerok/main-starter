@@ -26,7 +26,7 @@ object Globals {
     const val wrapperVersion = "5.6-rc-1"
 
     object Plugin {
-      const val lombokVersion = "3.6.1"
+      const val lombokVersion = "3.8.1"
       const val versionsVersion = "0.21.0"
       const val dependencyManagementVersion = "1.0.8.RELEASE"
     }
