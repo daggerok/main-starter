@@ -11,7 +11,7 @@ object Globals {
   val javaVersion = JavaVersion.VERSION_1_8
 
   const val cdiApiVersion = "2.0"
-  const val vavrVersion = "0.10.0"
+  const val vavrVersion = "0.10.2"
   const val kotlinVersion = "1.3.41"
   const val lombokVersion = "1.18.8"
   const val assertjVersion = "3.13.2"
