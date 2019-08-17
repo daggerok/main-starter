@@ -10,8 +10,10 @@ plugins {
   id("com.github.ben-manes.versions") version Globals.Gradle.Plugin.versionsVersion
 }
 
-group = Globals.Project.groupId
-version = Globals.Project.version
+allprojects {
+  group = Globals.Project.groupId
+  version = Globals.Project.version
+}
 
 sourceSets {
   main {
