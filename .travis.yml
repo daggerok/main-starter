@@ -14,6 +14,7 @@ branches:
   only:
     - all
     - scala
+    - maven
     - master
     - spring
     - gradle
