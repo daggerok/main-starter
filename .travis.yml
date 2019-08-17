@@ -36,4 +36,3 @@ cache:
   directories:
   - ~/.m2
   packages: true
-  pip: true
