@@ -1,7 +1,7 @@
 # main-starter [![Build Status](https://travis-ci.org/daggerok/main-starter.svg?branch=quarkus-gradle)](https://travis-ci.org/daggerok/main-starter)
 Quarkus micro-profile starter using Gradle build tool.
 
-NOTE: tests doesn't worked! see [that issue](https://github.com/quarkusio/quarkus-quickstarts/issues/258)
+NOTE: testing doesn't work! see [that issue](https://github.com/quarkusio/quarkus-quickstarts/issues/258)
 
 _getting started_
 
