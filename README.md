@@ -50,8 +50,8 @@ rm -rf .git
 * [maven](https://github.com/daggerok/main-starter/tree/maven/)
 * [mp-smallrye-gradle](https://github.com/daggerok/main-starter/tree/mp-smallrye-gradle/)
 * [mp-smallrye-maven](https://github.com/daggerok/main-starter/tree/mp-smallrye-maven/)
-* [quarkus-gradle](https://github.com/daggerok/main-starter/tree/quarkus-gradle/)
 * [quarkus-maven](https://github.com/daggerok/main-starter/tree/quarkus-mavem/)
+* [quarkus-gradle](https://github.com/daggerok/main-starter/tree/quarkus-gradle/)
 * [quarkus-scala](https://github.com/daggerok/main-starter/tree/quarkus-scala/)
 
 TODO / FIXME:
