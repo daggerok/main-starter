@@ -9,7 +9,7 @@
   <version>1.2-SNAPSHOT</version>
 
   <properties>
-    <vavr.version>0.10.0</vavr.version>
+    <vavr.version>0.10.2</vavr.version>
     <lombok.version>1.18.8</lombok.version>
     <quarkus.version>0.17.0</quarkus.version>
 
