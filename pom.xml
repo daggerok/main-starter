@@ -11,7 +11,8 @@
   <properties>
     <vavr.version>0.10.2</vavr.version>
     <lombok.version>1.18.8</lombok.version>
-    <quarkus.version>0.17.0</quarkus.version>
+    <!-- last tested version was: 0.17.0 -->
+    <quarkus.version>0.21.1</quarkus.version>
 
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
