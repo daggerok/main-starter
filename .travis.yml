@@ -18,10 +18,11 @@ branches:
     - master
     - spring
     - gradle
-    - quarkus
     - spring-boot
     - quarkus-scala
     - gradle-kotlin
+    - quarkus-gradle
+    - quarkus-maven
     - spring-fu-jafu
     - spring-boot-all
     - spring-boot-scala
