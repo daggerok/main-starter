@@ -47,6 +47,7 @@ rm -rf .git
 * [gradle-kotlin](https://github.com/daggerok/main-starter/tree/gradle-kotlin/)
 * [gradle](https://github.com/daggerok/main-starter/tree/gradle/)
 * [maven-kotlin](https://github.com/daggerok/main-starter/tree/maven-kotlin/)
+* [maven-java](https://github.com/daggerok/main-starter/tree/maven-java/)
 * [maven](https://github.com/daggerok/main-starter/tree/maven/)
 * [mp-smallrye-gradle](https://github.com/daggerok/main-starter/tree/mp-smallrye-gradle/)
 * [mp-smallrye-maven](https://github.com/daggerok/main-starter/tree/mp-smallrye-maven/)

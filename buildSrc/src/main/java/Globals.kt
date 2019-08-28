@@ -12,7 +12,7 @@ object Globals {
 
   const val cdiApiVersion = "2.0"
   const val vavrVersion = "0.10.2"
-  const val kotlinVersion = "1.3.41"
+  const val kotlinVersion = "1.3.50"
   const val lombokVersion = "1.18.8"
   const val assertjVersion = "3.13.2"
   const val weldVersion = "3.1.2.Final"
@@ -22,10 +22,10 @@ object Globals {
   const val junitJupiterVersion = "5.5.1"
 
   object Gradle {
-    const val wrapperVersion = "5.6"
+    const val wrapperVersion = "5.6.1"
 
     object Plugin {
-      const val lombokVersion = "3.8.4"
+      const val lombokVersion = "4.0.1"
       const val versionsVersion = "0.22.0"
     }
   }

@@ -18,6 +18,7 @@ branches:
     - master
     - spring
     - gradle
+    - maven-java
     - spring-boot
     - quarkus-scala
     - gradle-kotlin
