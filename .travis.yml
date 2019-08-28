@@ -3,36 +3,46 @@ notifications:
 git:
   quiet: true
   depth: 1
+
 env:
   global:
   - TERM=dumb
+
 language: java
 jdk: openjdk8
+
 addons:
   apt:
     update: true
     packages:
     - bash
+
 install: true
+
 jobs:
   include:
+
   - stage: test
     jdk: openjdk8
-    name: Maven build (openjdk8)
+    name: mvn
     script: cd $TRAVIS_BUILD_DIR && ./mvnw -U
+
   - stage: test
     jdk: openjdk8
-    name: Maven updates (openjdk8)
+    name: display-property-updates
     script: cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates -U
+
   - stage: test
     jdk: openjdk11
-    name: Maven build (openjdk11)
+    name: test jdk11
     script: cd $TRAVIS_BUILD_DIR && ./mvnw -U
+
   - stage: test
     jdk: openjdk11
-    name: Maven updates (openjdk11)
+    name: display-property-updates jdk11
     script: cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates -U
+
 cache:
+  packages: true
   directories:
   - ~/.m2
-  packages: true
