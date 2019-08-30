@@ -1,16 +1,20 @@
 dist: xenial
+
 notifications:
   email: false
 git:
   quiet: true
   depth: 1
+
 language: java
 jdk: openjdk8
 node_js: lts/*
 python: 3
+
 service:
   - docker
   - xvfb
+
 addons:
   apt:
     update: true
@@ -31,6 +35,7 @@ addons:
       - libappindicator1
       - fonts-liberation
       - google-chrome-stable
+
 install: true
 before_install:
   - docker-compose -v
@@ -42,21 +47,34 @@ before_install:
   #
   - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
   - stop_any 80 8001 8002 8080 5432
-before_script:
-  - echo TODO
+
 stages:
   - test
   - maintain
+
 jobs:
   include:
+
+    - stage: test
+      jdk: openjdk8
+      name: Run gradle tests (openjdk8)
+      script: cd $TRAVIS_BUILD_DIR && ./gradlew clean test
+
+    - stage: test
+      jdk: openjdk11
+      name: Run gradle tests (openjdk11)
+      script: cd $TRAVIS_BUILD_DIR && ./gradlew clean test
+
     - stage: test
       jdk: openjdk8
       name: Run maven tests (openjdk8)
       script: cd $TRAVIS_BUILD_DIR && ./mvnw clean test -U
+
     - stage: test
       jdk: openjdk11
       name: Run maven tests (openjdk11)
       script: cd $TRAVIS_BUILD_DIR && ./mvnw clean test -U
+
     - stage: test
       jdk: openjdk8
       name: Build uberJar profile and run integration tests (openjdk8)
@@ -74,6 +92,7 @@ jobs:
         - http :8080/api/v1/hello/%20
         - http :8080/api/v1/hello/maksimko
         - stop_any 80 8080
+
     - stage: test
       jdk: openjdk11
       name: Build uberJar profile and run integration tests (openjdk11)
@@ -91,6 +110,7 @@ jobs:
         - http :8080/api/v1/hello/%20
         - http :8080/api/v1/hello/maksimko
         - stop_any 80 8080
+
     - stage: test
       jdk: openjdk8
       name: Build quarkus uberJar and run integration tests (openjdk8)
@@ -108,6 +128,7 @@ jobs:
         - http :8080/api/v1/hello/%20
         - http :8080/api/v1/hello/maksimko
         - stop_any 80 8080
+
     - stage: test
       jdk: openjdk11
       name: Build quarkus uberJar and run integration tests (openjdk11)
@@ -125,6 +146,7 @@ jobs:
         - http :8080/api/v1/hello/%20
         - http :8080/api/v1/hello/maksimko
         - stop_any 80 8080
+
     - stage: test
       jdk: openjdk8
       name: Test app with maven docker-compose plugin (openjdk8)
@@ -140,6 +162,7 @@ jobs:
         - http :8080/api/v1/hello/%20
         - http :8080/api/v1/hello/maksimko
         - cd $TRAVIS_BUILD_DIR && ./mvnw -P docker docker-compose:down
+
     - stage: test
       jdk: openjdk8
       name: Test Dockerfile.jvm (openjdk8)
@@ -161,6 +184,7 @@ jobs:
         - http :8080/api/v1/hello/maksimko
         #
         - docker rm -f -v jvm-app
+
     - stage: test
       jdk: openjdk8
       name: Test Dockerfile.native (openjdk8)
@@ -182,6 +206,7 @@ jobs:
         - http :8080/api/v1/hello/maksimko
         #
         - docker rm -f -v native-app
+
     - stage: maintain
       jdk: openjdk8
       name: Run mvn versions:display-property-updates command (openjdk8)
@@ -190,8 +215,11 @@ jobs:
       jdk: openjdk11
       name: Run mvn versions:display-property-updates command (openjdk11)
       script: cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates -U
+
 cache:
   directories:
     - ~/.m2
+    - ~/.gradle
+    - ~/.docker
   packages: true
   pip: true

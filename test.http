@@ -1,0 +1,16 @@
+GET http://127.0.0.1:8080/api/v1/hello
+
+###
+GET http://127.0.0.1:8080/api/v1/hello/max
+
+###
+GET http://127.0.0.1:8080/health
+
+###
+GET http://127.0.0.1:8080/openapi
+
+###
+GET http://127.0.0.1:8080/metrics
+Accept: application/json
+
+###
