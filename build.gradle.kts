@@ -1,17 +1,29 @@
 import com.avast.gradle.dockercompose.RemoveImages
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("io.quarkus:quarkus-gradle-plugin:0.21.1")
+    }
+}
+
 plugins {
     idea
     java
-    id("io.quarkus") version "0.21.1"
-    id("com.github.ben-manes.versions") version "0.22.0"
+    id("com.github.ben-manes.versions") version "0.23.0"
     id("com.avast.gradle.docker-compose") version "0.9.4"
-    // id("io.spring.dependency-management") version "1.0.8.RELEASE"
+    // // for some reasons, test wont work with new style quarkus plugin declaration:
+    // https://github.com/quarkusio/quarkus/issues/3552#issuecomment-524225607
+    // id("io.quarkus") version "0.21.1"
 }
 
+apply(plugin = "io.quarkus")
+
 allprojects {
-    version = "1.0-SNAPSHOT"
+    version = "1.0.1-SNAPSHOT"
     group = "com.github.daggerok"
 }
 
@@ -50,12 +62,12 @@ tasks {
     }
 
     withType(Wrapper::class.java) {
-        gradleVersion = "5.6"
+        gradleVersion = "5.6.1"
         distributionType = Wrapper.DistributionType.BIN
     }
 }
 
-defaultTasks("quarkusBuild")
+defaultTasks("clean", "build")
 
 dockerCompose {
     useComposeFiles = listOf("src/main/docker/docker-compose.yaml")
