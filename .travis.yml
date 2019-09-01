@@ -151,7 +151,11 @@ jobs:
       jdk: openjdk8
       name: Test app with maven docker-compose plugin (openjdk8)
       script:
-        - cd $TRAVIS_BUILD_DIR && ./mvnw -P docker compile jar:jar quarkus:build docker-compose:up -U
+        - cd $TRAVIS_BUILD_DIR && ./mvnw -P docker compile jar:jar quarkus:build -U
+        - cd $TRAVIS_BUILD_DIR && ./mvnw -P docker docker-compose:down
+        - cd $TRAVIS_BUILD_DIR && ./mvnw -P docker docker-compose:up
+        - wait_for 8080
+        - sleep 1s
         - http :8080
         - http :8080/health
         - http :8080/openapi
@@ -162,6 +166,7 @@ jobs:
         - http :8080/api/v1/hello/%20
         - http :8080/api/v1/hello/maksimko
         - cd $TRAVIS_BUILD_DIR && ./mvnw -P docker docker-compose:down
+        - stop_any 80 8080
 
     - stage: test
       jdk: openjdk8
