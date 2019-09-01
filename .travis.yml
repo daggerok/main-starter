@@ -25,17 +25,27 @@ jobs:
   - stage: test
     jdk: openjdk8
     name: mvn
-    script: cd $TRAVIS_BUILD_DIR && ./mvnw -U
+    script: cd $TRAVIS_BUILD_DIR && ./mvnw clean ; ./mvnw -Pcapsule ; java -jar ./target/*-all.jar
+
+  - stage: test
+    jdk: openjdk11
+    name: test jdk11
+    script: cd $TRAVIS_BUILD_DIR && ./mvnw clean ; ./mvnw -Passembly ; java -jar ./target/*-all.jar
+
+  - stage: test
+    jdk: openjdk8
+    name: mvn
+    script: cd $TRAVIS_BUILD_DIR && ./mvnw clean ; ./mvnw ; java -jar ./target/*-all.jar
+
+  - stage: test
+    jdk: openjdk11
+    name: test jdk11
+    script: cd $TRAVIS_BUILD_DIR && ./mvnw clean ; ./mvnw ; java -jar ./target/*-all.jar
 
   - stage: test
     jdk: openjdk8
     name: display-property-updates
     script: cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates -U
-
-  - stage: test
-    jdk: openjdk11
-    name: test jdk11
-    script: cd $TRAVIS_BUILD_DIR && ./mvnw -U
 
   - stage: test
     jdk: openjdk11

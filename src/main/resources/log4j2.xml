@@ -4,7 +4,7 @@
         <Property name="PID">%5X{pid}</Property>
         <Property name="LOG_EXCEPTION_CONVERSION_WORD">%xEx</Property>
         <Property name="LOG_LEVEL_PATTERN">%5p</Property>
-        <Property name="LOG_PATTERN">%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{dim} %highlight{${LOG_LEVEL_PATTERN}} %style{${sys:PID}}{magenta} %style{---}{dim} %style{[%15.15t]}{yellow} %style{%-40.40c{1.}}{cyan} %style{%22.22M}{magenta} %style{:}{faint} %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}</Property>
+        <Property name="LOG_PATTERN">%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{dim} %highlight{${LOG_LEVEL_PATTERN}} %style{---}{dim} %style{[%15.15t]}{yellow} %style{%-15.15c{1.}}{cyan} %style{%15.14M}{magenta} %style{:}{faint} %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}</Property>
     </Properties>
     <Appenders>
         <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
@@ -12,7 +12,10 @@
         </Console>
     </Appenders>
     <Loggers>
-        <logger name="com.github.daggerok" level="ALL" additivity="false">
+        <logger name="daggerok" level="ALL" additivity="false">
+            <appender-ref ref="ConsoleAppender"/>
+        </logger>
+        <logger name="org.jboss.weld" level="WARN" additivity="false">
             <appender-ref ref="ConsoleAppender"/>
         </logger>
         <Root level="INFO">
