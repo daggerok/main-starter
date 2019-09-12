@@ -20,6 +20,6 @@ public class Main {
     }
 
     private void sayHello() {
-        log.info("hello!");
+        log.info("Hello!");
     }
 }
