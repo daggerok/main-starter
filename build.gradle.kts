@@ -6,7 +6,7 @@ plugins {
   application
   kotlin("jvm") version Globals.kotlinVersion
   kotlin("plugin.spring") version Globals.kotlinVersion
-  id("io.freefair.lombok") version Globals.Gradle.Plugin.lombokVersion
+  id("io.franzbecker.gradle-lombok") version Globals.Gradle.Plugin.lombokVersion
   id("com.github.ben-manes.versions") version Globals.Gradle.Plugin.versionsVersion
 }
 
@@ -37,7 +37,7 @@ repositories {
 }
 
 lombok {
-  version.set(Globals.lombokVersion)
+  version = Globals.lombokVersion
 }
 
 dependencies {

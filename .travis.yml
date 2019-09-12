@@ -98,7 +98,9 @@ jobs:
     - stage: test
       jdk: openjdk11
       name: Maven updates (openjdk11)
-      script: cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-property-updates -U
+      script:
+        - cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-parent-updates versions:display-dependency-updates versions:display-property-updates -U >/dev/null
+        - cd $TRAVIS_BUILD_DIR && ./mvnw versions:display-parent-updates versions:display-dependency-updates versions:display-property-updates
     - stage: test
       jdk: openjdk11
       name: Gradle build (openjdk11)
