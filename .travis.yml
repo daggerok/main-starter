@@ -155,7 +155,7 @@ jobs:
         - cd $TRAVIS_BUILD_DIR && ./mvnw -P docker docker-compose:down
         - cd $TRAVIS_BUILD_DIR && ./mvnw -P docker docker-compose:up
         - wait_for 8080
-        - sleep 1s
+        - sleep 25s
         - http :8080
         - http :8080/health
         - http :8080/openapi
