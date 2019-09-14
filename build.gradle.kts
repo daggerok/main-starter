@@ -6,24 +6,24 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("io.quarkus:quarkus-gradle-plugin:0.21.1")
+        classpath("io.quarkus:quarkus-gradle-plugin:0.21.2")
     }
 }
 
 plugins {
     idea
     java
-    id("com.github.ben-manes.versions") version "0.23.0"
+    id("com.github.ben-manes.versions") version "0.25.0"
     id("com.avast.gradle.docker-compose") version "0.9.4"
     // // for some reasons, test wont work with new style quarkus plugin declaration:
     // https://github.com/quarkusio/quarkus/issues/3552#issuecomment-524225607
-    // id("io.quarkus") version "0.21.1"
+    // id("io.quarkus") version "0.21.2"
 }
 
 apply(plugin = "io.quarkus")
 
 allprojects {
-    version = "1.0.1-SNAPSHOT"
+    version = "0.0.2-SNAPSHOT"
     group = "com.github.daggerok"
 }
 
@@ -39,7 +39,7 @@ repositories {
 }
 
 dependencies {
-    implementation(enforcedPlatform("io.quarkus:quarkus-bom:0.21.1"))
+    implementation(enforcedPlatform("io.quarkus:quarkus-bom:0.21.2"))
     implementation("io.quarkus:quarkus-resteasy")
     implementation("io.quarkus:quarkus-jsonp")
     implementation("io.quarkus:quarkus-jsonb")
@@ -66,8 +66,8 @@ tasks {
         }
     }
 
-    withType(Wrapper::class.java) {
-        gradleVersion = "5.6.1"
+    withType<Wrapper> {
+        gradleVersion = "5.6.2"
         distributionType = Wrapper.DistributionType.BIN
     }
 }
@@ -87,3 +87,4 @@ dockerCompose {
 }
 
 tasks["composeUp"].dependsOn("quarkusBuild")
+
