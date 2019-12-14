@@ -22,13 +22,14 @@ addons:
       - python3-pip
 install: true
 before_install:
+  - mkdir -p ~/.local/bin
   - export PATH=$HOME/.local/bin:$PATH
   - pip3 install --user --upgrade pip setuptools
   - pip install --user --upgrade httpie
   - |
-    if [ ! -f ${HOME}/.local/daggerok/bash-functions/master/main.bash ] ; then
-      mkdir -p ${HOME}/.local/daggerok/bash-functions/master ;
-      curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash > ${HOME}/.local/daggerok/bash-functions/master/main.bash ;
+    if [ ! -f ~/.local/daggerok/bash-functions/master/main.bash ] ; then
+      mkdir -p ~/.local/daggerok/bash-functions/master ;
+      curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash > ~/.local/daggerok/bash-functions/master/main.bash ;
     fi
   - stop_any 80 8080 5672 5432 27017 >/dev/null
 jobs:
