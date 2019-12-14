@@ -1,73 +1,38 @@
-dist: trusty
 notifications:
   email: false
 git:
   quiet: true
-  depth: 1
+  depth: false
 env:
   global:
     - TERM=dumb
 language: java
 jdk: openjdk8
-python: 3
-branches:
-  only:
-    - all
-    - scala
-    - maven
-    - master
-    - spring
-    - gradle
-    - maven-cdi
-    - maven-java
-    - spring-boot
-    - quarkus-scala
-    - gradle-kotlin
-    - quarkus-gradle
-    - quarkus-maven
-    - spring-fu-jafu
-    - spring-boot-all
-    - spring-boot-scala
+python: 3.7
 addons:
   apt:
     update: true
-    sources:
-      - google-chrome
     packages:
-      - jq
       - bash
       - sudo
       - lsof
       - wget
       - curl
       - unzip
-      - docker-ce
       - python3-pip
 install: true
 before_install:
-  ## gradle
-  #- curl -s "https://get.sdkman.io" | bash
-  #- source "$HOME/.sdkman/bin/sdkman-init.sh"
-  #- sed -i -e 's/^sdkman_auto_answer=false$/sdkman_auto_answer=true/g' "$HOME/.sdkman/etc/config"
-  #- sdk use gradle 5.5-rc-4
-  #- source "$HOME/.sdkman/bin/sdkman-init.sh"
-  ##
-  - which pip  || echo 'which pip  command failed.'
-  - which pip3 || echo 'which pip3 command failed.'
   - export PATH=$HOME/.local/bin:$PATH
-  - pip3 install --user $(whoami) --upgrade pip
-  - which pip  || echo 'which pip  command failed.'
-  - which pip3 || echo 'which pip3 command failed.'
-  - pip install --user $(whoami) --upgrade httpie
-  - http --version --debug
-  - docker-compose -v
-  #- pip install --user $(whoami) --upgrade docker-compose httpie >/dev/null 2>&1
-  #- docker-compose -v
-  - source <(curl -fsSL https://raw.github.com/daggerok/bash-functions/master/main.bash)
+  - pip3 install --user --upgrade pip setuptools
+  - pip install --user --upgrade httpie
+  - |
+    if [ ! -f ${HOME}/.local/daggerok/bash-functions/master/main.bash ] ; then
+      mkdir -p ${HOME}/.local/daggerok/bash-functions/master ;
+      curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash > ${HOME}/.local/daggerok/bash-functions/master/main.bash ;
+    fi
   - stop_any 80 8080 5672 5432 27017 >/dev/null
 jobs:
   include:
-    # openjdk8
     - stage: test
       jdk: openjdk8
       name: Maven build (openjdk8)
@@ -88,7 +53,6 @@ jobs:
       jdk: openjdk8
       name: Gradle updates (openjdk8)
       script: cd $TRAVIS_BUILD_DIR && ./gradlew dependencyUpdates -Drevision=release
-    # openjdk11
     - stage: test
       jdk: openjdk11
       name: Maven build (openjdk11)
@@ -112,8 +76,9 @@ jobs:
       name: Gradle updates (openjdk11)
       script: cd $TRAVIS_BUILD_DIR && ./gradlew dependencyUpdates -Drevision=release
 cache:
+  pip: true
+  packages: true
   directories:
+    - ~/.local/daggerok
     - ~/.gradle
     - ~/.m2
-  packages: true
-  pip: true
