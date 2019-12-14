@@ -7,4 +7,4 @@ pluginManagement {
   }
 }
 
-rootProject.name = Globals.Project.artifactId
+rootProject.name = "main-starter"

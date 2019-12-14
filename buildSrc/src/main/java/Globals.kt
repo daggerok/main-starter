@@ -2,7 +2,6 @@ import org.gradle.api.JavaVersion
 
 object Globals {
   object Project {
-    const val artifactId = "main-starter"
     const val groupId = "com.github.daggerok"
     const val version = "1.7-SNAPSHOT"
     const val mainClass = "com.github.daggerok.App"
