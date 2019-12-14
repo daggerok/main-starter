@@ -21,7 +21,7 @@ object Globals {
   const val junitJupiterVersion = "5.6.0-M1"
 
   object Gradle {
-    const val wrapperVersion = "5.6.4"
+    const val wrapperVersion = "6.0.1"
 
     object Plugin {
       const val lombokVersion = "3.2.0"
