@@ -82,5 +82,6 @@ cache:
   packages: true
   directories:
     - ~/.local/daggerok
+    - ~/.docker
     - ~/.gradle
     - ~/.m2
