@@ -30,8 +30,8 @@ before_install:
     if [ ! -f ~/.local/daggerok/bash-functions/master/main.bash ] ; then
       mkdir -p ~/.local/daggerok/bash-functions/master ;
       curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash > ~/.local/daggerok/bash-functions/master/main.bash ;
-    fi
-  - source ~/.local/daggerok/bash-functions/master/main.bash
+    fi ;
+    source ~/.local/daggerok/bash-functions/master/main.bash ;
   - stop_any 80 8080 5672 5432 27017 >/dev/null
 jobs:
   include:
