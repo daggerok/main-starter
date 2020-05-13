@@ -1,19 +1,30 @@
-import org.gradle.api.tasks.testing.logging.TestLogEvent.*
-
 plugins {
+  idea
   java
   application
-  id("io.franzbecker.gradle-lombok") version "3.0.0"
+  id("io.franzbecker.gradle-lombok") version "4.0.0"
+  id("com.github.ben-manes.versions") version "0.28.0"
 }
 
+val mainClass: String by project
+val vavrVersion: String by project
+val slf4jVersion: String by project
+val lombokVersion: String by project
+val junit4Version: String by project
+val springVersion: String by project
+val logbackVersion: String by project
+val assertkVersion: String by project
+val assertjVersion: String by project
+val javaVersion = JavaVersion.VERSION_1_8
+val junitJupiterVersion: String by project
+val gradleWrapperVersion: String by project
+
 tasks.withType(Wrapper::class.java) {
-  val gradleWrapperVersion: String by project
   gradleVersion = gradleWrapperVersion
   distributionType = Wrapper.DistributionType.BIN
 }
 
 java {
-  val javaVersion = JavaVersion.VERSION_1_8
   sourceCompatibility = javaVersion
   targetCompatibility = javaVersion
 }
@@ -22,20 +33,9 @@ repositories {
   mavenCentral()
 }
 
-val lombokVersion: String by project
-
 lombok {
   version = lombokVersion
 }
-
-val springVersion: String by project
-val vavrVersion: String by project
-val slf4jVersion: String by project
-val logbackVersion: String by project
-val junit4Version: String by project
-val assertkVersion: String by project
-val assertjVersion: String by project
-val junitJupiterVersion: String by project
 
 dependencies {
   implementation(platform("org.springframework:spring-framework-bom:$springVersion"))
@@ -48,9 +48,7 @@ dependencies {
 
   testImplementation("org.assertj:assertj-core:$assertjVersion")
   testImplementation(platform("org.junit:junit-bom:$junitJupiterVersion"))
-  testRuntime("org.junit.platform:junit-platform-launcher")
-  testImplementation("org.junit.jupiter:junit-jupiter-api")
-  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+  testImplementation("org.junit.jupiter:junit-jupiter")
   testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
   testImplementation("junit:junit:$junit4Version")
 }
@@ -60,14 +58,16 @@ tasks.withType<Test> {
   testLogging {
     showExceptions = true
     showStandardStreams = true
-    events(PASSED, SKIPPED, FAILED)
+    events(
+        org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED,
+        org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED,
+        org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
+    )
   }
 }
 
-val mainClass: String by project
-
 application {
-  mainClassName = mainClass
+  mainClassName = "$mainClass"
 }
 
 tasks {

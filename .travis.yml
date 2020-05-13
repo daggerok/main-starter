@@ -1,0 +1,15 @@
+language: java
+jdk:
+- openjdk8
+- openjdk11
+install: true
+jobs:
+  include:
+  - stage: test
+    script: ./mvnw
+  - stage: test
+    script: ./gradlew
+cache:
+  directories:
+  - ~/.m2
+  - ~/.gradle
