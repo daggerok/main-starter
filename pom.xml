@@ -12,7 +12,7 @@
     <mainClass>com.github.daggerok.App</mainClass>
 
     <vavr.version>0.10.2</vavr.version>
-    <kotlin.version>1.3.50</kotlin.version>
+    <kotlin.version>1.6.0</kotlin.version>
     <lombok.version>1.18.10</lombok.version>
     <assertj.version>3.14.0</assertj.version>
     <cdi-api.version>2.0.SP1</cdi-api.version>
